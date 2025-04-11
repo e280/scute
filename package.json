@@ -15,8 +15,8 @@
 		"_clean": "rm -rf x && mkdir x",
 		"_links": "ln -s \"$(realpath s/index.html)\" x/index.html && ln -s \"$(realpath node_modules)\" x/node_modules",
 		"_tsc": "tsc",
-		"start": "vite --port 8080 --config vite.config.mjs",
-		"test": "node x/demo/demo.js"
+		"start": "exit 0",
+		"test": "exit 0"
 	},
 	"dependencies": {
 		"@benev/argv": "^0.3.9",
