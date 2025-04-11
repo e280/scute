@@ -19,7 +19,8 @@
 		"test": "node x/demo/demo.js"
 	},
 	"dependencies": {
-		"@benev/argv": "^0.3.9"
+		"@benev/argv": "^0.3.9",
+		"zx": "^8.5.2"
 	},
 	"devDependencies": {
 		"@types/node": "^22.14.0",
