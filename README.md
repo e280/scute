@@ -34,26 +34,47 @@
 
 ## scute cli to build your project
 
+*run this command to build your project*
 ```sh
 scute
 ```
 
-options (defaults shown)
-- `--watch="no"` — is this a watch routine?
-- `--in="src,dist"` — where to read input files
-- `--out="dist"` — where to emit output files
-- `--tsc="yes"` — should we run tsc?
-- `--bundle="yes"` — should we bundle ".bundle.js" entrypoints?
-- `--html="yes"` — should we build ".html.js" templates?
-- `--copy="*.css,*.json,*.txt"` — what files should we copy verbatim?
-- `--exclude=""` — what files should we ignore?
-- `--verbose="no"` — should we log a bunch of crap?
+`--help`
+```
+🐢 scute {params}
+  the lil buildy-bundly-buddy that builds your web projects.
+  - runs typescript compiler
+  - copies files like .css from s/ to x/
+  - builds .html.js template js files
+  - bundles .bundle.js entrypoints with esbuild
 
-what does scute *actually* do?
-1. runs typescript compiler `tsc`
-1. copies files like `.css` from your `src` to your `dist`
-1. builds `*.html.js` template js files
-1. bundles `*.bundle.js` entrypoints with `esbuild`
+  --watch, -w, flag boolean
+    watch mode
+
+  --in, default string-list s,x
+    dirs to read from
+
+  --out, default string-list x
+    output dir
+
+  --tsc, default boolean yes
+    should we run tsc?
+
+  --copy, default string-list *.css,*.json,*.txt
+    what files should we copy verbatim?
+
+  --bundle, default boolean yes
+    should we bundle .bundle.js files?
+
+  --html, default boolean yes
+    should we build .html.js templates?
+
+  --exclude, optional string
+    what files should we ignore?
+
+  --verbose, -v, flag boolean
+    should we log a bunch of crap?
+```
 
 <br/>
 

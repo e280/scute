@@ -6,13 +6,19 @@ deathWithDignity()
 
 await cli(process.argv, {
 	name: "🐢 scute",
-	help: `lil buildy-bundly-buddy`,
+	help: `
+		the lil buildy-bundly-buddy that builds your web projects.
+		- runs typescript compiler
+		- copies files like .css from s/ to x/
+		- builds .html.js template js files
+		- bundles .bundle.js entrypoints with esbuild
+	`,
 	commands: command({
 		args: [],
 		params: {
 			watch: param.flag("w", {help: `watch mode`}),
-			in: param.default(list(string), "src,dist", {help: `dirs to read from`}),
-			out: param.default(list(string), "dist", {help: `output dir`}),
+			in: param.default(list(string), "s,x", {help: `dirs to read from`}),
+			out: param.default(list(string), "x", {help: `output dir`}),
 			tsc: param.default(boolean, "yes", {help: `should we run tsc?`}),
 			copy: param.default(list(string), "*.css,*.json,*.txt", {help: `what files should we copy verbatim?`}),
 			bundle: param.default(boolean, "yes", {help: `should we bundle .bundle.js files?`}),
