@@ -32,7 +32,7 @@
 
 <br/>
 
-### scute cli to build your project
+## scute cli to build your project
 
 ```sh
 scute
@@ -57,7 +57,7 @@ what does scute *actually* do?
 
 <br/>
 
-### scute html templating
+## scute html templating
 
 as a static-site-generator, scute provides an html templating language, for you to write web pages.
 
