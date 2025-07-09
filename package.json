@@ -19,11 +19,11 @@
 		"test": "exit 0"
 	},
 	"dependencies": {
-		"@benev/argv": "^0.3.9",
-		"zx": "^8.5.2"
+		"@benev/argv": "^0.3.10",
+		"zx": "^8.6.1"
 	},
 	"devDependencies": {
-		"@types/node": "^22.14.0",
+		"@types/node": "^24.0.12",
 		"npm-run-all": "^4.1.5",
 		"typescript": "^5.8.3"
 	},

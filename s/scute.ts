@@ -1,33 +1,36 @@
 
-// import {$} from "zx"
-// import {cli, command, deathWithDignity} from "@benev/argv"
-//
-// const {onDeath} = deathWithDignity()
-//
-// await cli(process.argv, {
-// 	name: "turtle",
-// 	help: `🐢 static site generator.`,
-// 	commands: {
-//
-// 		build: command({
-// 			help: `
-// 				run a standard typescript app build.
-// 				generate an importmap.json, create a symlink to node_modules, run your ts build, and bundle up your ".bundle.js" files to produce ".bundle.min.js" files.
-// 			`,
-// 			args: [],
-// 			params: buildparams,
-// 			async execute({params}) {
-// 				// await handleZxErrors(async() => {
-// 				// 	await $`mkdir -p "${params.out}"`
-// 				// 	await $`npm exec -- importly --host=node_modules < package-lock.json > "${params.out}/importmap.json"`
-// 				// 	await $`rm -f "${params.out}/node_modules"`
-// 				// 	await $`ln -s "$(realpath node_modules)" "${params.out}/node_modules"`
-// 				// 	await $`npm exec -- tsc`
-// 				// 	await turtleBundles(params.out, params.exclude, params.verbose)
-// 				// })
-// 			},
-// 		}),
-//
-// 	},
-// }).execute()
+import {$} from "zx"
+import {boolean, cli, command, deathWithDignity, list, param, string} from "@benev/argv"
+
+deathWithDignity()
+
+await cli(process.argv, {
+	name: "🐢 scute",
+	help: `lil buildy-bundly-buddy`,
+	commands: command({
+		args: [],
+		params: {
+			watch: param.flag("w", {help: `watch mode`}),
+			in: param.default(list(string), "src,dist", {help: `dirs to read from`}),
+			out: param.default(list(string), "dist", {help: `output dir`}),
+			tsc: param.default(boolean, "yes", {help: `should we run tsc?`}),
+			copy: param.default(list(string), "*.css,*.json,*.txt", {help: `what files should we copy verbatim?`}),
+			bundle: param.default(boolean, "yes", {help: `should we bundle .bundle.js files?`}),
+			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),
+			exclude: param.optional(string, {help: `what files should we ignore?`}),
+			verbose: param.flag("v", {help: `should we log a bunch of crap?`}),
+		},
+		async execute({params}) {
+			console.log(params)
+			// await handleZxErrors(async() => {
+			// 	await $`mkdir -p "${params.out}"`
+			// 	await $`npm exec -- importly --host=node_modules < package-lock.json > "${params.out}/importmap.json"`
+			// 	await $`rm -f "${params.out}/node_modules"`
+			// 	await $`ln -s "$(realpath node_modules)" "${params.out}/node_modules"`
+			// 	await $`npm exec -- tsc`
+			// 	await turtleBundles(params.out, params.exclude, params.verbose)
+			// })
+		},
+	}),
+}).execute()
 

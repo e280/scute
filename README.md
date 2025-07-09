@@ -10,26 +10,30 @@
 
 # 🐢 scute
 
-scute is e280's minimal zero-config standard build runner for websites, libraries, and apps.
-- scute is a lil static site generator
-- scute has its own html templating language
-- scute runs your typescript build and does all the bundley stuff
+### lil buildy-bundly-buddy
+- one simple command `scute` builds your web project
+- runs typescript and does all the bundley stuff
+- static site generator, with its own html templating language
+- minimal and zero-config
 
-## how to scute
+### get scute
 - install scute in your project
   ```sh
   npm install @e280/scute
   ```
-- in your terminal, run scute via npx
+- in your terminal, run scute help via npx
   ```sh
   npx scute --help
   ```
-- in your package scripts, run scute nakedly
+- in your package scripts, run scute help nakedly
   ```sh
   scute --help
   ```
 
-### one command to build your project
+<br/>
+
+### scute cli to build your project
+
 ```sh
 scute
 ```
@@ -50,4 +54,13 @@ what does scute *actually* do?
 1. copies files like `.css` from your `src` to your `dist`
 1. builds `*.html.js` template js files
 1. bundles `*.bundle.js` entrypoints with `esbuild`
+
+<br/>
+
+### scute html templating
+
+as a static-site-generator, scute provides an html templating language, for you to write web pages.
+
+> [!IMPORTANT]  
+> TODO this section
 
