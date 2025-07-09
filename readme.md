@@ -3,35 +3,51 @@
 
 <br/>
 
+> [!IMPORTANT]  
+> scute doesn't work yet. it's not done. wip.
+
+<br/>
+
 # 🐢 scute
-- scute is a little zero-config static site generator
-- scute does html templating and hash-based cache-management
-- scute does all the bundley stuff using rollup
 
-### install scute into your project
+scute is e280's minimal zero-config standard build runner for websites, libraries, and apps.
+- scute is a lil static site generator
+- scute has its own html templating language
+- scute runs your typescript build and does all the bundley stuff
+
+## how to scute
+- install scute in your project
+  ```sh
+  npm install @e280/scute
+  ```
+- in your terminal, run scute via npx
+  ```sh
+  npx scute --help
+  ```
+- in your package scripts, run scute nakedly
+  ```sh
+  scute --help
+  ```
+
+### one command to build your project
 ```sh
-npm install @e280/scute
-
-# in your terminal, run scute with npx
-npx scute --help
-
-# in your package scripts, run scute nakedly
-scute --help
+scute
 ```
 
-### typical way to run scute
-```sh
-scute --tsc --bundle --importmap --html --copy="*.css"
-```
-- defaults
+options (defaults shown)
 - `--watch="no"` — is this a watch routine?
 - `--in="src,dist"` — where to read input files
 - `--out="dist"` — where to emit output files
-- `--tsc="no"` — should we run tsc?
-- `--bundle="no"` — should we bundle ".bundle.js" entrypoints?
-- `--importmap="no"` — should we generate an importmap.json?
-- `--html="no"` — should we build ".html.js" templates?
-- `--copy=""` — should we copy over assets?
+- `--tsc="yes"` — should we run tsc?
+- `--bundle="yes"` — should we bundle ".bundle.js" entrypoints?
+- `--html="yes"` — should we build ".html.js" templates?
+- `--copy="*.css,*.json,*.txt"` — what files should we copy verbatim?
 - `--exclude=""` — what files should we ignore?
 - `--verbose="no"` — should we log a bunch of crap?
+
+what does scute *actually* do?
+1. runs typescript compiler `tsc`
+1. copies files like `.css` from your `src` to your `dist`
+1. builds `*.html.js` template js files
+1. bundles `*.bundle.js` entrypoints with `esbuild`
 
