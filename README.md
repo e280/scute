@@ -8,45 +8,54 @@
 
 <br/>
 
-# 🐢 scute
-
-### lil buildy-bundly-buddy
-- one simple command `scute` builds your web project
-- runs typescript and does all the bundley stuff
-- static site generator, with its own html templating language
-- minimal and zero-config
+# scute — your lil buildy bundly buddy
+- `🐢 scute` cli is a zero-config static-site-generator
+- `🕷️ spider` cli is a tiny simple multiplexer
+- `@e280/scute` is a library for html templating
 
 ### get scute
 - install scute in your project
   ```sh
   npm install @e280/scute
   ```
-- in your terminal, run scute help via npx
+- run scute help to learn about it
   ```sh
   npx scute --help
   ```
-- in your package scripts, run scute help nakedly
+- run spider help to learn about it
   ```sh
-  scute --help
+  npx spider --help
   ```
 
 <br/>
 
-## scute cli to build your project
+## tldr — setup your app
+1. setup your typescript app with your ts code in `s/` dir, and outputting to `x/` dir
+1. setup a `tests.test.ts` test suite with [@e280/science](https://github.com/e280/science)
+1. add these build and watch scripts to your npm package.json
+    ```json
+    {
+      "build": "tsc && scute",
+      "watch": "spider 'npx tsc -w' 'npx scute -w' 'node --watch x/tests.test.js'"
+    }
+    ```
+1. write `.html.ts` files with default exported templates
+1. write `.bundle.ts` files and they'll be bundled automatically
+1. files like `.css` and `.json` will be copied automatically
+1. you are now a cool person
 
-*run this command to build your project*
-```sh
-scute
-```
+<br/>
 
-`--help`
+## `🐢 scute` — builds your website
+
+**`scute --help`**
+
 ```
 🐢 scute {params}
-  the lil buildy-bundly-buddy that builds your web projects.
-  - runs typescript compiler
+  lil buildy bundly buddy for your web projects
   - copies files like .css from s/ to x/
-  - builds .html.js template js files
   - bundles .bundle.js entrypoints with esbuild
+  - builds .html.js template js files
 
   --watch, -w, flag boolean
     watch mode
@@ -57,9 +66,6 @@ scute
   --out, default string-list x
     output dir
 
-  --tsc, default boolean yes
-    should we run tsc?
-
   --copy, default string-list *.css,*.json,*.txt
     what files should we copy verbatim?
 
@@ -69,11 +75,34 @@ scute
   --html, default boolean yes
     should we build .html.js templates?
 
-  --exclude, optional string
+  --exclude, optional string-list
     what files should we ignore?
 
   --verbose, -v, flag boolean
     should we log a bunch of crap?
+```
+
+<br/>
+
+## `🕷️ spider` — tiny watch routine multiplexer
+
+**`spider --help`**
+
+```
+🕷️ spider ...commands
+  tiny terminal multiplexer for watch routines
+
+  ...commands,
+    shell commands to multiplex
+
+    for example,
+      $ spider "npx tsc -w" "npx scute -w"
+
+    here, you will get two panes,
+    - press 1 to see the "npx tsc -w" output
+    - press 2 to see the "npx scute -w" output
+    - press [ or h to shimmy left one pane
+    - press ] or l to shimmy right one pane
 ```
 
 <br/>

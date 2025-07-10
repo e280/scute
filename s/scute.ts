@@ -1,17 +1,18 @@
 
-import {$} from "zx"
 import {boolean, cli, command, deathWithDignity, list, param, string} from "@benev/argv"
+import {scuteCopy} from "./steps/copy.js"
+import {scuteHtml} from "./steps/html.js"
+import {scuteBundle} from "./steps/bundle.js"
 
-deathWithDignity()
+const {onDeath} = deathWithDignity()
 
 await cli(process.argv, {
 	name: "🐢 scute",
 	help: `
-		the lil buildy-bundly-buddy that builds your web projects.
-		- runs typescript compiler
+		lil buildy bundly buddy for your web projects
 		- copies files like .css from s/ to x/
-		- builds .html.js template js files
 		- bundles .bundle.js entrypoints with esbuild
+		- builds .html.js template js files
 	`,
 	commands: command({
 		args: [],
@@ -19,23 +20,39 @@ await cli(process.argv, {
 			watch: param.flag("w", {help: `watch mode`}),
 			in: param.default(list(string), "s,x", {help: `dirs to read from`}),
 			out: param.default(list(string), "x", {help: `output dir`}),
-			tsc: param.default(boolean, "yes", {help: `should we run tsc?`}),
 			copy: param.default(list(string), "*.css,*.json,*.txt", {help: `what files should we copy verbatim?`}),
 			bundle: param.default(boolean, "yes", {help: `should we bundle .bundle.js files?`}),
 			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),
-			exclude: param.optional(string, {help: `what files should we ignore?`}),
+			exclude: param.optional(list(string), {help: `what files should we ignore?`}),
 			verbose: param.flag("v", {help: `should we log a bunch of crap?`}),
 		},
 		async execute({params}) {
-			console.log(params)
-			// await handleZxErrors(async() => {
-			// 	await $`mkdir -p "${params.out}"`
-			// 	await $`npm exec -- importly --host=node_modules < package-lock.json > "${params.out}/importmap.json"`
-			// 	await $`rm -f "${params.out}/node_modules"`
-			// 	await $`ln -s "$(realpath node_modules)" "${params.out}/node_modules"`
-			// 	await $`npm exec -- tsc`
-			// 	await turtleBundles(params.out, params.exclude, params.verbose)
-			// })
+			const log = (...m: any[]) => {
+				if (params.verbose)
+					console.log(...m)
+			}
+
+			log("scute build..")
+			await scuteCopy.build(params)
+			await scuteBundle.build(params)
+			await scuteHtml.build(params)
+			log("scute build done..")
+
+			if (params.watch) {
+				log("scute watch..")
+
+				const watchers = await Promise.all([
+					scuteCopy.watch(params),
+					scuteBundle.watch(params),
+					scuteHtml.watch(params),
+				])
+
+				onDeath(async() => {
+					log("scute watch stop..")
+					await Promise.all(watchers.map(async w => w.stop()))
+					log("scute watch stopped..")
+				})
+			}
 		},
 	}),
 }).execute()
