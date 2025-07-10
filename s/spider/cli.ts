@@ -1,9 +1,17 @@
 #!/usr/bin/env node
 
+import {loop} from "@e280/stz"
+import {Logger} from "@e280/sten"
 import {parse} from "shell-quote"
+import {cli, command, deathWithDignity} from "@benev/argv"
+
 import readline from "node:readline"
 import {spawn} from "node:child_process"
-import {cli, command, deathWithDignity} from "@benev/argv"
+
+const logger = new Logger()
+	.setShaper(Logger.shapers.errors())
+
+const {colors} = logger
 
 const {onDeath, pleaseExit} = deathWithDignity()
 
@@ -44,11 +52,19 @@ await cli(process.argv, {
 				return pane
 			}
 
-			function draw() {
+			async function draw() {
 				const pane = getActivePane()
 				console.clear()
-				console.log(pane.content.join(""))
-				console.log(`\n[🕷️ spider ${active + 1}/${panes.length} ${pane.command.slice(0, 24)}]`)
+				await logger.log(pane.content.join(""))
+				const nav = [...loop(panes.length)].map(index => {
+					return active === index
+						? colors.brightCyan(`[${index + 1}]`)
+						: colors.blue(`${index + 1}`)
+				}).join(" ")
+				const cmd = pane.command.slice(0, 24)
+				await logger.log(colors.blue(
+					`\n🕷️ ${nav} ${colors.dim(colors.green(cmd))}`
+				))
 			}
 
 			readline.emitKeypressEvents(process.stdin)
