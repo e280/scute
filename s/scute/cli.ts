@@ -20,7 +20,7 @@ await cli(process.argv, {
 		params: {
 			watch: param.flag("w", {help: `watch mode`}),
 			in: param.default(list(string), "s,x", {help: `dirs to read from`}),
-			out: param.default(list(string), "x", {help: `output dir`}),
+			out: param.default(string, "x", {help: `output dir`}),
 			copy: param.default(list(string), "*.css,*.json,*.txt", {help: `what files should we copy verbatim?`}),
 			bundle: param.default(boolean, "yes", {help: `should we bundle .bundle.js files?`}),
 			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),

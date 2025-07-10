@@ -2,7 +2,7 @@
 export type Params = {
 	watch: boolean
 	in: string[]
-	out: string[]
+	out: string
 	copy: string[]
 	bundle: boolean
 	html: boolean
