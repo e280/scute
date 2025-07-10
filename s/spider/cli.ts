@@ -29,8 +29,6 @@ await cli(process.argv, {
 			`,
 		},
 		async execute({extraArgs}) {
-			console.log("spider")
-
 			type Pane = {
 				command: string
 				exe: string

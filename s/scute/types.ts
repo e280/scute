@@ -1,4 +1,6 @@
 
+import {Logger} from "@e280/sten"
+
 export type Params = {
 	watch: boolean
 	in: string[]
@@ -8,6 +10,7 @@ export type Params = {
 	html: boolean
 	exclude?: string[]
 	verbose: boolean
+	logger: Logger
 }
 
 export type Step = {

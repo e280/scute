@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
+import {Logger} from "@e280/sten"
 import {boolean, cli, command, deathWithDignity, list, param, string} from "@benev/argv"
+
 import {scuteCopy} from "./steps/copy.js"
 import {scuteHtml} from "./steps/html.js"
 import {scuteBundle} from "./steps/bundle.js"
@@ -27,31 +29,33 @@ await cli(process.argv, {
 			exclude: param.optional(list(string), {help: `what files should we ignore?`}),
 			verbose: param.flag("v", {help: `should we log a bunch of crap?`}),
 		},
-		async execute({params}) {
-			const log = (...m: any[]) => {
-				if (params.verbose)
-					console.log(...m)
-			}
+		async execute({params: p}) {
+			const logger = new Logger()
+				.setShaper(Logger.shapers.errors())
 
-			log("scute build..")
+			if (!p.verbose)
+				logger.setWriter(Logger.writers.void())
+
+			const params = {...p, logger}
+
+			await logger.log("scute build..")
 			await scuteCopy.build(params)
 			await scuteBundle.build(params)
 			await scuteHtml.build(params)
-			log("scute build done..")
 
 			if (params.watch) {
-				log("scute watch..")
+				await logger.log("scute watch..")
 
-				const watchers = await Promise.all([
-					scuteCopy.watch(params),
-					scuteBundle.watch(params),
-					scuteHtml.watch(params),
-				])
+				const watchers = [
+					await scuteCopy.watch(params),
+					await scuteBundle.watch(params),
+					await scuteHtml.watch(params),
+				]
 
 				onDeath(async() => {
-					log("scute watch stop..")
+					await logger.log("scute watch stop..")
 					await Promise.all(watchers.map(async w => w.stop()))
-					log("scute watch stopped..")
+					await logger.log("scute watch stopped..")
 				})
 			}
 		},
