@@ -99,10 +99,10 @@
       $ spider "npx tsc -w" "npx scute -w"
 
     here, you will get two panes,
-    - press 1 to see the "npx tsc -w" output
-    - press 2 to see the "npx scute -w" output
-    - press [ or h to shimmy left one pane
-    - press ] or l to shimmy right one pane
+    - press 1 to see the tsc output
+    - press 2 to see the scute output
+    - press [ or h to shimmy left
+    - press ] or l to shimmy right
 ```
 
 <br/>

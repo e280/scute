@@ -10,6 +10,10 @@
 		"x",
 		"s"
 	],
+	"bin": {
+		"scute": "./x/scute/cli.js",
+		"spider": "./x/spider/cli.js"
+	},
 	"scripts": {
 		"build": "run-s _clean _links _tsc",
 		"_clean": "rm -rf x && mkdir x",
@@ -31,7 +35,7 @@
 		"typescript": "^5.8.3"
 	},
 	"keywords": [
-		"static-site-generator",
+		"static site generator",
 		"ssg"
 	],
 	"homepage": "https://github.com/e280/scute#readme",

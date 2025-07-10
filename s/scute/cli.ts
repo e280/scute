@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 import {boolean, cli, command, deathWithDignity, list, param, string} from "@benev/argv"
 import {scuteCopy} from "./steps/copy.js"
