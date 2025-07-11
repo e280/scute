@@ -20,9 +20,9 @@ await cli(process.argv, {
 	name: "🐢 scute",
 	help: `
 		lil buildy bundly buddy for your web projects
-		- copies files like .css from s/ to x/
-		- bundles .bundle.js entrypoints with esbuild
-		- builds .html.js template js files
+		- copies files like .css
+		- bundles .bundle.js files with esbuild
+		- builds .html.js template files
 	`,
 	commands: command({
 		args: [],
