@@ -31,18 +31,19 @@
 
 ## tldr — setup your app
 1. setup your typescript app with your ts code in `s/` dir, and outputting to `x/` dir
+1. install a server like `http-server` for previewing your app in development
 1. setup a `tests.test.ts` test suite with [@e280/science](https://github.com/e280/science)
 1. add these build and watch scripts to your npm package.json
     ```json
     {
-      "build": "rm -rf x && tsc && scute",
-      "watch": "npm run build && octo 'npx tsc -w' 'npx scute -vw' 'node --watch x/tests.test.js'"
+      "build": "rm -rf x && tsc && scute -v",
+      "watch": "npm run build && octo 'scute -vw' 'tsc -w' 'node --watch x/tests.test.js' 'http-server x'"
     }
     ```
 1. write `.html.ts` files with default exported templates
 1. write `.bundle.ts` files and they'll be bundled automatically
 1. files like `.css` and `.json` will be copied automatically
-1. you are now a cool person
+1. now it's official — you are a cool person
 
 <br/>
 
@@ -100,16 +101,30 @@
   tiny terminal multiplexer for watch routines
 
   ...commands,
-    each command gets its own pane that you can flip between
+    each command gets its own pane that you can flip between.
 
     for example,
-      $ octo "npx scute -vw" "npx tsc -w"
+      $ octo "scute -vw" "tsc -w"
 
-    here, you will get two panes,
-    - press 1 to see the scute output
-    - press 2 to see the tsc output
-    - press [ or h or j to shimmy left
-    - press ] or l or k to shimmy right
+    this will give you two panes,
+      - press 1 to see the scute output
+      - press 2 to see the tsc output
+      - press [ or h or j to shimmy left
+      - press ] or l or k to shimmy right
+      - press q or ctrl+c to quit
+
+    local npm bin is available,
+      $ scute -vw      # GOOD this works
+      $ npx scute -vw  # BAD npx is unnecessary
+```
+
+here's a typical watch routine with octo
+```sh
+octo \
+  "scute --verbose --watch" \
+  "tsc -w" \
+  "node --watch x/test.tests.ts" \
+  "http-server x"
 ```
 
 <br/>

@@ -5,6 +5,7 @@ import {debounce, defer, loop} from "@e280/stz"
 import {colorful as colors, Logger} from "@e280/sten"
 import {cli, command, deathWithDignity} from "@benev/argv"
 
+import {resolve} from "node:path"
 import readline from "node:readline"
 import {spawn} from "node:child_process"
 
@@ -23,16 +24,21 @@ await cli(process.argv, {
 		extraArgs: {
 			name: "commands",
 			help: `
-				each command gets its own pane that you can flip between
+				each command gets its own pane that you can flip between.
 
 				for example,
-					$ octo "npx scute -vw" "npx tsc -w"
+					$ octo "scute -vw" "tsc -w"
 
-				here, you will get two panes,
-				- press 1 to see the scute output
-				- press 2 to see the tsc output
-				- press [ or h or j to shimmy left
-				- press ] or l or k to shimmy right
+				this will give you two panes,
+					- press 1 to see the scute output
+					- press 2 to see the tsc output
+					- press [ or h or j to shimmy left
+					- press ] or l or k to shimmy right
+					- press q or ctrl+c to quit
+
+				local npm bin is available,
+					$ scute -vw      # GOOD this works
+					$ npx scute -vw  # BAD npx is unnecessary
 			`,
 		},
 		async execute({extraArgs}) {
@@ -41,6 +47,7 @@ await cli(process.argv, {
 				exe: string
 				content: string[]
 				proc: ReturnType<typeof spawn>
+				exited: boolean
 			}
 
 			const notes: string[] = []
@@ -96,10 +103,17 @@ await cli(process.argv, {
 				await draw()
 			})
 
+			const localBin = resolve("node_modules/.bin")
+
 			for (const command of extraArgs) {
 				const [exe, ...args] = parse(command).map(p => p.toString())
-				const proc = spawn(exe, args, {env: process.env})
-				const pane: Pane = {command, exe, proc, content: []}
+				const proc = spawn(exe, args, {
+					env: {
+						...process.env,
+						PATH: `${localBin}:${process.env.PATH}`
+					},
+				})
+				const pane: Pane = {command, exe, proc, exited: false, content: []}
 				panes.push(pane)
 
 				const append = async(chunk: Buffer) => {
@@ -120,6 +134,7 @@ await cli(process.argv, {
 				proc.stderr.on("data", append)
 
 				proc.on("exit", async(code, signal) => {
+					pane.exited = true
 					pane.content.push(`\n🐙 subprocess exited code ${code}, signal ${signal}`)
 					if (getActivePane() === pane)
 						await draw()
@@ -129,6 +144,8 @@ await cli(process.argv, {
 			onDeath(async() => {
 				const waiting: Promise<void>[] = []
 				for (const pane of panes) {
+					if (pane.proc.killed || pane.exited)
+						continue
 					pane.proc.kill("SIGTERM")
 					await draw()
 					const deferred = defer<void>()
