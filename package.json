@@ -15,9 +15,9 @@
 		"spider": "./x/spider/cli.js"
 	},
 	"scripts": {
-		"build": "run-s _clean _links _tsc",
-		"demo": "node ./x/scute/cli.js -v",
-		"demo-w": "node ./x/spider/cli.js 'node ./x/scute/cli.js -vw' 'npm run _tscw'",
+		"build": "run-s _clean _links _tsc _scute",
+		"watch": "npm run build -s && node ./x/spider/cli.js 'node ./x/scute/cli.js -vw' 'npm run _tscw'",
+		"_scute": "node ./x/scute/cli.js -v",
 		"_clean": "rm -rf x && mkdir x",
 		"_links": "ln -s \"$(realpath s/index.html)\" x/index.html && ln -s \"$(realpath node_modules)\" x/node_modules",
 		"_tsc": "tsc",

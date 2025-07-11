@@ -50,18 +50,9 @@ await cli(process.argv, {
 				exclude: [...globalExcludes, ...(p.exclude ?? [])],
 			}
 
-			await logger.log(logger.colors.brightGreen(`scute build..`))
-
-			for (const p of params.in)
-				await logger.log(`in "${resolve(p)}"`)
-			await logger.log(`out "${resolve(params.out)}"`)
-
-			await scuteCopy.build(params)
-			await scuteBundle.build(params)
-			await scuteHtml.build(params)
-
+			// WATCH MODE
 			if (params.watch) {
-				await logger.log(logger.colors.brightGreen(`\nscute watch..`))
+				await logger.log(logger.colors.brightGreen(`🐢 scute watch`))
 
 				const watchers = [
 					await scuteCopy.watch(params),
@@ -72,6 +63,17 @@ await cli(process.argv, {
 				onDeath(async() => {
 					await Promise.all(watchers.map(async w => w.stop()))
 				})
+			}
+
+			// BUILD MODE
+			else {
+				await logger.log(logger.colors.brightGreen(`🐢 scute build`))
+				for (const p of params.in)
+					await logger.log(`in "${resolve(p)}"`)
+				await logger.log(`out "${resolve(params.out)}"`)
+				await scuteCopy.build(params)
+				await scuteBundle.build(params)
+				await scuteHtml.build(params)
 			}
 		},
 	}),

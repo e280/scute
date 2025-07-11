@@ -120,7 +120,7 @@ await cli(process.argv, {
 				proc.stderr.on("data", append)
 
 				proc.on("exit", async(code, signal) => {
-					pane.content.push(`\n🕷️ subprocess exited ${code} ${signal}`)
+					pane.content.push(`\n🕷️ subprocess exited code ${code}, signal ${signal}`)
 					if (getActivePane() === pane)
 						await draw()
 				})
