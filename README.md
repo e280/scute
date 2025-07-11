@@ -9,9 +9,9 @@
 <br/>
 
 # scute — your lil buildy bundly buddy
+- `@e280/scute` is a library for html templating
 - `🐢 scute` cli is a zero-config static-site-generator
 - `🐙 octo` cli is a tiny terminal multiplexer for watch routines
-- `@e280/scute` is a library for html templating
 
 ### get scute
 - install scute in your project
@@ -46,7 +46,7 @@
 
 <br/>
 
-## `🐢 scute` — builds your web app
+## 🐢 scute cli — builds your web app
 
 **`scute --help`**
 
@@ -91,7 +91,7 @@
 
 <br/>
 
-## `🐙 octo` — tiny watch routine multiplexer
+## 🐙 octo cli — tiny watch routine multiplexer
 
 **`octo --help`**
 
