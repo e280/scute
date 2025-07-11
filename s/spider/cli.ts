@@ -15,7 +15,7 @@ const logger = new Logger()
 	.setShaper(Logger.shapers.errors())
 
 await cli(process.argv, {
-	name: "🕷️ spider",
+	name: "🐙 octo",
 	help: `tiny terminal multiplexer for watch routines`,
 	commands: command({
 		args: [],
@@ -26,7 +26,7 @@ await cli(process.argv, {
 				shell commands to multiplex
 
 				for example,
-					$ spider "npx tsc -w" "npx scute -w"
+					$ octo "npx tsc -w" "npx scute -w"
 
 				here, you will get two panes,
 				- press 1 to see the tsc output
@@ -70,7 +70,7 @@ await cli(process.argv, {
 				const cmd = truncateCommand(pane.command)
 				const pid = colors.green(pane.proc.pid?.toString() ?? "-")
 				const cmdline = colors.dim(colors.green(cmd))
-				await logger.log(`🕷️ ${nav} ${pid} ${cmdline}`)
+				await logger.log(`🐙 ${nav} ${pid} ${cmdline}`)
 				if (notes.length) {
 					for (const note of notes)
 						await logger.log(note)
@@ -120,7 +120,7 @@ await cli(process.argv, {
 				proc.stderr.on("data", append)
 
 				proc.on("exit", async(code, signal) => {
-					pane.content.push(`\n🕷️ subprocess exited code ${code}, signal ${signal}`)
+					pane.content.push(`\n🐙 subprocess exited code ${code}, signal ${signal}`)
 					if (getActivePane() === pane)
 						await draw()
 				})
@@ -137,7 +137,7 @@ await cli(process.argv, {
 						const flag = colors.blue(`closed`)
 						const pid = colors.green(pane.proc.pid?.toString() ?? "-")
 						const cmdline = colors.dim(colors.green(truncateCommand(pane.command)))
-						notes.push(`🕷️ ${flag} ${pid} ${cmdline}`)
+						notes.push(`🐙 ${flag} ${pid} ${cmdline}`)
 						await draw()
 						deferred.resolve()
 					})

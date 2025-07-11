@@ -10,7 +10,7 @@
 
 # scute — your lil buildy bundly buddy
 - `🐢 scute` cli is a zero-config static-site-generator
-- `🕷️ spider` cli is a tiny simple multiplexer
+- `🐙 octo` cli is a tiny simple multiplexer
 - `@e280/scute` is a library for html templating
 
 ### get scute
@@ -22,9 +22,9 @@
   ```sh
   npx scute --help
   ```
-- run spider help to learn about it
+- run octo help to learn about it
   ```sh
-  npx spider --help
+  npx octo --help
   ```
 
 <br/>
@@ -36,7 +36,7 @@
     ```json
     {
       "build": "tsc && scute",
-      "watch": "spider 'npx tsc -w' 'npx scute -w' 'node --watch x/tests.test.js'"
+      "watch": "octo 'npx tsc -w' 'npx scute -w' 'node --watch x/tests.test.js'"
     }
     ```
 1. write `.html.ts` files with default exported templates
@@ -84,19 +84,19 @@
 
 <br/>
 
-## `🕷️ spider` — tiny watch routine multiplexer
+## `🐙 octo` — tiny watch routine multiplexer
 
-**`spider --help`**
+**`octo --help`**
 
 ```
-🕷️ spider ...commands
+🐙 octo ...commands
   tiny terminal multiplexer for watch routines
 
   ...commands,
     shell commands to multiplex
 
     for example,
-      $ spider "npx tsc -w" "npx scute -w"
+      $ octo "npx tsc -w" "npx scute -w"
 
     here, you will get two panes,
     - press 1 to see the tsc output
