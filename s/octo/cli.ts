@@ -26,11 +26,11 @@ await cli(process.argv, {
 				each command gets its own pane that you can flip between
 
 				for example,
-					$ octo "npx tsc -w" "npx scute -w"
+					$ octo "npx scute -vw" "npx tsc -w"
 
 				here, you will get two panes,
-				- press 1 to see the tsc output
-				- press 2 to see the scute output
+				- press 1 to see the scute output
+				- press 2 to see the tsc output
 				- press [ or h or j to shimmy left
 				- press ] or l or k to shimmy right
 			`,

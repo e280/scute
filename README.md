@@ -36,7 +36,7 @@
     ```json
     {
       "build": "rm -rf x && tsc && scute",
-      "watch": "npm run build && octo 'npx tsc -w' 'npx scute -w' 'node --watch x/tests.test.js'"
+      "watch": "npm run build && octo 'npx tsc -w' 'npx scute -vw' 'node --watch x/tests.test.js'"
     }
     ```
 1. write `.html.ts` files with default exported templates
@@ -103,11 +103,11 @@
     each command gets its own pane that you can flip between
 
     for example,
-      $ octo "npx tsc -w" "npx scute -w"
+      $ octo "npx scute -vw" "npx tsc -w"
 
     here, you will get two panes,
-    - press 1 to see the tsc output
-    - press 2 to see the scute output
+    - press 1 to see the scute output
+    - press 2 to see the tsc output
     - press [ or h or j to shimmy left
     - press ] or l or k to shimmy right
 ```
