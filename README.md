@@ -10,7 +10,7 @@
 
 # scute — your lil buildy bundly buddy
 - `🐢 scute` cli is a zero-config static-site-generator
-- `🐙 octo` cli is a tiny simple multiplexer
+- `🐙 octo` cli is a tiny terminal multiplexer for watch routines
 - `@e280/scute` is a library for html templating
 
 ### get scute
@@ -35,8 +35,8 @@
 1. add these build and watch scripts to your npm package.json
     ```json
     {
-      "build": "tsc && scute",
-      "watch": "octo 'npx tsc -w' 'npx scute -w' 'node --watch x/tests.test.js'"
+      "build": "rm -rf x && tsc && scute",
+      "watch": "npm run build && octo 'npx tsc -w' 'npx scute -w' 'node --watch x/tests.test.js'"
     }
     ```
 1. write `.html.ts` files with default exported templates
@@ -46,16 +46,16 @@
 
 <br/>
 
-## `🐢 scute` — builds your website
+## `🐢 scute` — builds your web app
 
 **`scute --help`**
 
 ```
 🐢 scute {params}
   lil buildy bundly buddy for your web projects
-  - copies files like .css from s/ to x/
-  - bundles .bundle.js entrypoints with esbuild
-  - builds .html.js template js files
+  - copies files like .css
+  - bundles .bundle.js files with esbuild
+  - builds .html.js template files
 
   --watch, -w, flag boolean
     watch mode
@@ -63,10 +63,10 @@
   --in, default string-list s,x
     dirs to read from
 
-  --out, default string-list x
+  --out, default string x
     output dir
 
-  --copy, default string-list *.css,*.json,*.txt
+  --copy, default string-list **/*.css,**/*.json,**/*.txt
     what files should we copy verbatim?
 
   --bundle, default boolean yes
@@ -82,6 +82,13 @@
     should we log a bunch of crap?
 ```
 
+> [!TIP]  
+> the default follows our convention of using s/ and x/ instead of src/ and dist/,  
+> but if you wanna be a normie, do this:  
+> ```sh
+> scute --in="src,dist" --out="dist"
+> ```
+
 <br/>
 
 ## `🐙 octo` — tiny watch routine multiplexer
@@ -93,7 +100,7 @@
   tiny terminal multiplexer for watch routines
 
   ...commands,
-    shell commands to multiplex
+    each command gets its own pane that you can flip between
 
     for example,
       $ octo "npx tsc -w" "npx scute -w"
@@ -101,8 +108,8 @@
     here, you will get two panes,
     - press 1 to see the tsc output
     - press 2 to see the scute output
-    - press [ or h to shimmy left
-    - press ] or l to shimmy right
+    - press [ or h or j to shimmy left
+    - press ] or l or k to shimmy right
 ```
 
 <br/>

@@ -23,7 +23,7 @@ await cli(process.argv, {
 		extraArgs: {
 			name: "commands",
 			help: `
-				shell commands to multiplex
+				each command gets its own pane that you can flip between
 
 				for example,
 					$ octo "npx tsc -w" "npx scute -w"
