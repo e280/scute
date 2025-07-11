@@ -2,18 +2,11 @@
 import {globby} from "globby"
 import {sep, join, resolve} from "path"
 
-const globalExcludes = [
-	"**/node_modules/**",
-	"**/.git/**",
-]
-
 export async function findPaths(
 		directories: string[],
 		patterns: string[],
 		excludes: string[],
 	) {
-
-	excludes = [...globalExcludes, ...excludes]
 
 	return (await Promise.all(
 		directories.map(async directory => {

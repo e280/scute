@@ -17,7 +17,7 @@
 	"scripts": {
 		"build": "run-s _clean _links _tsc",
 		"demo": "node ./x/scute/cli.js -v",
-		"demo-w": "node ./x/spider/cli.js 'npm run _tscw' 'node ./x/scute/cli.js -vw'",
+		"demo-w": "node ./x/spider/cli.js 'node ./x/scute/cli.js -vw' 'npm run _tscw'",
 		"_clean": "rm -rf x && mkdir x",
 		"_links": "ln -s \"$(realpath s/index.html)\" x/index.html && ln -s \"$(realpath node_modules)\" x/node_modules",
 		"_tsc": "tsc",
@@ -29,13 +29,16 @@
 		"@benev/argv": "^0.3.11",
 		"@e280/sten": "^0.0.0-5",
 		"@e280/stz": "^0.0.0-28",
+		"braces": "^3.0.3",
 		"chokidar": "^4.0.3",
 		"esbuild": "^0.25.6",
 		"globby": "^14.1.0",
+		"minimatch": "^10.0.3",
 		"shell-quote": "^1.8.3",
 		"zx": "^8.6.2"
 	},
 	"devDependencies": {
+		"@types/braces": "^3.0.5",
 		"@types/node": "^24.0.12",
 		"@types/shell-quote": "^1.7.5",
 		"npm-run-all": "^4.1.5",

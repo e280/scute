@@ -8,7 +8,7 @@ export type Params = {
 	copy: string[]
 	bundle: boolean
 	html: boolean
-	exclude?: string[]
+	exclude: string[]
 	verbose: boolean
 	logger: Logger
 }

@@ -1,11 +1,18 @@
 #!/usr/bin/env node
 
+import {resolve} from "path"
 import {Logger} from "@e280/sten"
 import {boolean, cli, command, deathWithDignity, list, param, string} from "@benev/argv"
 
+import {Params} from "./types.js"
 import {scuteCopy} from "./steps/copy.js"
 import {scuteHtml} from "./steps/html.js"
 import {scuteBundle} from "./steps/bundle.js"
+
+const globalExcludes = [
+	"**/node_modules/**",
+	"**/.git/**",
+]
 
 const {onDeath} = deathWithDignity()
 
@@ -23,7 +30,7 @@ await cli(process.argv, {
 			watch: param.flag("w", {help: `watch mode`}),
 			in: param.default(list(string), "s,x", {help: `dirs to read from`}),
 			out: param.default(string, "x", {help: `output dir`}),
-			copy: param.default(list(string), "*.css,*.json,*.txt", {help: `what files should we copy verbatim?`}),
+			copy: param.default(list(string), "**/*.css,**/*.json,**/*.txt", {help: `what files should we copy verbatim?`}),
 			bundle: param.default(boolean, "yes", {help: `should we bundle .bundle.js files?`}),
 			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),
 			exclude: param.optional(list(string), {help: `what files should we ignore?`}),
@@ -36,15 +43,25 @@ await cli(process.argv, {
 			if (!p.verbose)
 				logger.setWriter(Logger.writers.void())
 
-			const params = {...p, logger}
+			const params: Params = {
+				...p,
+				logger,
+				exclude: [...globalExcludes, ...(p.exclude ?? [])],
+			}
 
-			await logger.log("scute build..")
+			await logger.log(`scute build..`)
+
+			await logger.log(`  paths..`)
+			for (const p of params.in)
+				await logger.log(`    in "${resolve(p)}"`)
+			await logger.log(`    out "${resolve(params.out)}"`)
+
 			await scuteCopy.build(params)
 			await scuteBundle.build(params)
 			await scuteHtml.build(params)
 
 			if (params.watch) {
-				await logger.log("scute watch..")
+				await logger.log(`\nscute watch..`)
 
 				const watchers = [
 					await scuteCopy.watch(params),
@@ -53,9 +70,9 @@ await cli(process.argv, {
 				]
 
 				onDeath(async() => {
-					await logger.log("scute watch stop..")
+					await logger.log(`scute watch stop..`)
 					await Promise.all(watchers.map(async w => w.stop()))
-					await logger.log("scute watch stopped..")
+					await logger.log(`scute watch stopped..`)
 				})
 			}
 		},

@@ -1,19 +1,18 @@
 #!/usr/bin/env node
 
-import {loop} from "@e280/stz"
-import {Logger} from "@e280/sten"
 import {parse} from "shell-quote"
+import {debounce, defer, loop} from "@e280/stz"
+import {colorful as colors, Logger} from "@e280/sten"
 import {cli, command, deathWithDignity} from "@benev/argv"
 
 import readline from "node:readline"
 import {spawn} from "node:child_process"
 
-const logger = new Logger()
-	.setShaper(Logger.shapers.errors())
-
-const {colors} = logger
-
 const {onDeath, pleaseExit} = deathWithDignity()
+
+const logger = new Logger()
+	.setWriter(Logger.writers.console())
+	.setShaper(Logger.shapers.errors())
 
 await cli(process.argv, {
 	name: "🕷️ spider",
@@ -44,6 +43,8 @@ await cli(process.argv, {
 				proc: ReturnType<typeof spawn>
 			}
 
+			const notes: string[] = []
+
 			const panes: Pane[] = []
 			let active = 0
 			const getActivePane = () => {
@@ -52,20 +53,29 @@ await cli(process.argv, {
 				return pane
 			}
 
-			async function draw() {
+			const draw = debounce(0, async() => {
 				const pane = getActivePane()
+
 				console.clear()
+				for (const _ of loop(process.stdout.rows))
+					await logger.log("")
+
 				await logger.log(pane.content.join(""))
+
 				const nav = [...loop(panes.length)].map(index => {
 					return active === index
 						? colors.brightCyan(`[${index + 1}]`)
-						: colors.blue(`${index + 1}`)
-				}).join(" ")
-				const cmd = pane.command.slice(0, 24)
-				await logger.log(colors.blue(
-					`\n🕷️ ${nav} ${colors.dim(colors.green(cmd))}`
-				))
-			}
+						: colors.blue(` ${index + 1} `)
+				}).join("")
+				const cmd = truncateCommand(pane.command)
+				const pid = colors.green(pane.proc.pid?.toString() ?? "-")
+				const cmdline = colors.dim(colors.green(cmd))
+				await logger.log(`🕷️ ${nav} ${pid} ${cmdline}`)
+				if (notes.length) {
+					for (const note of notes)
+						await logger.log(note)
+				}
+			})
 
 			readline.emitKeypressEvents(process.stdin)
 			process.stdin.setRawMode(true)
@@ -79,11 +89,11 @@ await cli(process.argv, {
 				if (exitRequested)
 					await pleaseExit(0)
 
-				if (key === "[" || key === "h") active = (active - 1 + panes.length) % panes.length
-				if (key === "]" || key === "l") active = (active + 1) % panes.length
+				if (key === "[" || key === "h" || key === "j") active = (active - 1 + panes.length) % panes.length
+				if (key === "]" || key === "l" || key === "k") active = (active + 1) % panes.length
 				if (key >= "1" && key <= String(panes.length)) active = parseInt(key) - 1
 
-				draw()
+				await draw()
 			})
 
 			for (const command of extraArgs) {
@@ -92,23 +102,53 @@ await cli(process.argv, {
 				const pane: Pane = {command, exe, proc, content: []}
 				panes.push(pane)
 
-				const append = (chunk: Buffer) => {
-					pane.content.push(chunk.toString())
+				const append = async(chunk: Buffer) => {
+					const s = chunk.toString()
+						.replace(/\x1B\[2J/g, "")       // clear screen
+						.replace(/\x1B\[\d+;\d+H/g, "") // cursor move
+						.replace(/\x1B\[H/g, "")        // alternate cursor move
+					pane.content.push(s)
 					pane.content = pane.content.slice(-128)
-					if (getActivePane() === pane) draw()
+					if (getActivePane() === pane)
+						await draw()
 				}
 
 				proc.stdout.on("data", append)
 				proc.stderr.on("data", append)
 
-				proc.on("exit", code => {
-					pane.content.push(`\n[spider] exited with code ${code}`)
-					if (getActivePane() === pane) draw()
+				proc.on("exit", async(code, signal) => {
+					pane.content.push(`\n🕷️ subprocess exited ${code} ${signal}`)
+					if (getActivePane() === pane)
+						await draw()
 				})
-
-				onDeath(() => void proc.kill("SIGTERM"))
 			}
+
+			onDeath(async() => {
+				const waiting: Promise<void>[] = []
+				for (const pane of panes) {
+					pane.proc.kill("SIGTERM")
+					await draw()
+					const deferred = defer<void>()
+					waiting.push(deferred.promise)
+					pane.proc.on("exit", async() => {
+						const flag = colors.blue(`closed`)
+						const pid = colors.green(pane.proc.pid?.toString() ?? "-")
+						const cmdline = colors.dim(colors.green(truncateCommand(pane.command)))
+						notes.push(`🕷️ ${flag} ${pid} ${cmdline}`)
+						await draw()
+						deferred.resolve()
+					})
+				}
+				await Promise.all(waiting)
+				await draw()
+			})
 		},
 	}),
 }).execute()
+
+function truncateCommand(cmd: string) {
+	return cmd.length > 32
+		? cmd.slice(0, 32) + ".."
+		: cmd
+}
 

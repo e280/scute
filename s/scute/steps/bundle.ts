@@ -68,7 +68,7 @@ async function findBundles(params: Params) {
 		const name1 = basename(p.partial)
 		const name2 = name1.replace(/\.bundle\.js$/, ".bundle.min.js")
 		return {
-			in: p.absolute,
+			in: p.relative,
 			out: join(params.out, dir, name2),
 		}
 	})
