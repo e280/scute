@@ -8,11 +8,9 @@ import {findPaths} from "../utils/find-paths.js"
 export const scuteBundle: Step = {
 	build: async params => {
 		const {logger} = params
-		await logger.log(`  bundles..`)
 		const bundles = await findBundles(params)
 
 		await Promise.all(bundles.map(async bundle => {
-			await logger.log(`    in "${bundle.in}"`)
 			await esbuild.build({
 				entryPoints: [bundle.in],
 				outfile: bundle.out,
@@ -20,34 +18,39 @@ export const scuteBundle: Step = {
 				minify: true,
 				sourcemap: true,
 			})
-			await logger.log(`    out "${bundle.out}"`)
+			await logger.log(`${logger.colors.yellow(`bundle`)} "${bundle.in}" -> "${bundle.out}"`)
 		}))
 	},
 
 	watch: async params => {
 		const {logger} = params
-		await logger.log(`  watch bundles..`)
 		const bundles = await findBundles(params)
 		const contexts = await Promise.all(bundles.map(async bundle => {
-			await logger.log(`    in "${bundle.in}"`)
+			await logger.log(`${logger.colors.yellow(`bundle`)} watching "${bundle.in}"`)
 			const context = await esbuild.context({
 				entryPoints: [bundle.in],
 				outfile: bundle.out,
 				bundle: true,
 				minify: true,
 				sourcemap: true,
-				logLevel: params.verbose
-					? "info"
-					: "silent",
+				plugins: [{
+					name: "logging",
+					setup(build) {
+						build.onEnd(result => {
+							const problems = [...result.errors, ...result.warnings]
+							for (const err of problems)
+								logger.error(err.text)
+							if (problems.length === 0)
+								logger.log(`${logger.colors.yellow(`bundle`)} "${bundle.in}" -> "${bundle.out}"`)
+						})
+					},
+				}],
 			})
 			await context.watch()
-			await logger.log(`    out "${bundle.out}"`)
 			return context
 		}))
-		await logger.log(`    bundles being watched: ${contexts.length}`)
 		return {
 			stop: async() => {
-				await logger.log(`  stopping ${contexts.length} bundles..`)
 				await Promise.all(contexts.map(
 					async context => context.dispose()
 				))

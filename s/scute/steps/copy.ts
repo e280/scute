@@ -17,21 +17,22 @@ export const scuteCopy: Step = {
 	watch: async params => {
 		const {logger} = params
 
-		const stop = await watch(
-			params.in,
+		const copyFromDirs = params.in
+			.filter(p => resolve(p) !== resolve(params.out))
+
+		const stop = watch(
+			copyFromDirs,
 			params.copy,
 			params.exclude ?? [],
 			async() => {
-				await logger.log("FIRING COPY FN")
 				const ops = await findCopyOperations(params)
 				await copy(logger, ops)
 			},
 		)
 
-		await logger.log(`  copy watch..`)
 		const ops = await findCopyOperations(params)
 		for (const op of ops)
-			await logger.log(`    watch "${op.in}" -> "${op.out}"`)
+			await logger.log(`${logger.colors.magenta(`copy`)} watching "${op.in}" -> "${op.out}"`)
 
 		return {stop: async() => stop()}
 	},
@@ -55,7 +56,6 @@ async function findCopyOperations(params: Params) {
 }
 
 async function copy(logger: Logger, ops: {in: string, out: string}[]) {
-	await logger.log(`  copy..`)
 	await Promise.all(ops.map(op => copyWithParents(logger, op)))
 }
 
@@ -63,6 +63,6 @@ async function copyWithParents(logger: Logger, op: {in: string, out: string}) {
 	const dir = dirname(op.out)
 	await fs.mkdir(dir, {recursive: true})
 	await fs.cp(op.in, op.out, {recursive: false})
-	await logger.log(`    "${op.in}" -> "${op.out}"`)
+	await logger.log(`${logger.colors.magenta(`copy`)} "${op.in}" -> "${op.out}"`)
 }
 

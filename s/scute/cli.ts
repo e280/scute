@@ -39,6 +39,7 @@ await cli(process.argv, {
 		async execute({params: p}) {
 			const logger = new Logger()
 				.setShaper(Logger.shapers.errors())
+				.setColors(Logger.colors.colorful())
 
 			if (!p.verbose)
 				logger.setWriter(Logger.writers.void())
@@ -49,19 +50,18 @@ await cli(process.argv, {
 				exclude: [...globalExcludes, ...(p.exclude ?? [])],
 			}
 
-			await logger.log(`scute build..`)
+			await logger.log(logger.colors.brightGreen(`scute build..`))
 
-			await logger.log(`  paths..`)
 			for (const p of params.in)
-				await logger.log(`    in "${resolve(p)}"`)
-			await logger.log(`    out "${resolve(params.out)}"`)
+				await logger.log(`in "${resolve(p)}"`)
+			await logger.log(`out "${resolve(params.out)}"`)
 
 			await scuteCopy.build(params)
 			await scuteBundle.build(params)
 			await scuteHtml.build(params)
 
 			if (params.watch) {
-				await logger.log(`\nscute watch..`)
+				await logger.log(logger.colors.brightGreen(`\nscute watch..`))
 
 				const watchers = [
 					await scuteCopy.watch(params),
@@ -70,9 +70,7 @@ await cli(process.argv, {
 				]
 
 				onDeath(async() => {
-					await logger.log(`scute watch stop..`)
 					await Promise.all(watchers.map(async w => w.stop()))
-					await logger.log(`scute watch stopped..`)
 				})
 			}
 		},

@@ -24,16 +24,13 @@ export function watch(
 			.flatMap(pattern => [pattern, pattern + "/**"])
 			.some(pattern => minimatch(path, pattern))
 
-		const greenlight = isMatching && !isExcluded
-
-		if (greenlight)
-			console.log("watch got change", path)
-
-		return greenlight
+		return isMatching && !isExcluded
 	}
 
-	const watcher = chokidar.watch(dirs, {ignored: isAllowed})
-		.on("all", debounce(500, async() => {
+	const watcher = chokidar.watch(dirs, {ignoreInitial: true})
+		.on("all", debounce(500, async(_event, path: string) => {
+			if (!isAllowed(path))
+				return undefined
 			if (busy) return undefined
 			busy = true
 			try { await fn() }
