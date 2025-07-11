@@ -31,8 +31,8 @@ await cli(process.argv, {
 				here, you will get two panes,
 				- press 1 to see the tsc output
 				- press 2 to see the scute output
-				- press [ or h to shimmy left
-				- press ] or l to shimmy right
+				- press [ or h or j to shimmy left
+				- press ] or l or k to shimmy right
 			`,
 		},
 		async execute({extraArgs}) {
@@ -103,7 +103,10 @@ await cli(process.argv, {
 				panes.push(pane)
 
 				const append = async(chunk: Buffer) => {
-					const s = chunk.toString()
+					const string = chunk.toString()
+					if (/\x1B\[2J/g.test(string)) // clear pane
+						pane.content = []
+					const s = string
 						.replace(/\x1B\[2J/g, "")       // clear screen
 						.replace(/\x1B\[\d+;\d+H/g, "") // cursor move
 						.replace(/\x1B\[H/g, "")        // alternate cursor move
