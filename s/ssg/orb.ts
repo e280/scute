@@ -4,6 +4,7 @@ import {createHash} from "node:crypto"
 
 import {Io} from "./io.js"
 import {html, PageSetupFn} from "./html.js"
+import { urlToPath } from "./tools/url-to-path.js"
 
 export class Orb {
 	backToRoot: string
@@ -28,20 +29,20 @@ export class Orb {
 			const substance = pathy.slice(1)
 			return {
 				url: `${this.backToRoot}/${substance}`,
-				path: npath.join(substance, this.root),
+				path: urlToPath(npath.join(substance, this.root)),
 			}
 		}
 		else if (pathy.startsWith("$/")) {
 			const substance = pathy.slice(2)
 			return {
 				url: `${this.backToWorking}/${substance}`,
-				path: npath.normalize(substance),
+				path: urlToPath(npath.normalize(substance)),
 			}
 		}
 		else {
 			return {
 				url: pathy,
-				path: npath.join(npath.dirname(this.local), pathy),
+				path: urlToPath(npath.join(npath.dirname(this.local), pathy)),
 			}
 		}
 	}
