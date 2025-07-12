@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import {resolve} from "path"
+import {dedupe} from "@e280/stz"
 import {Logger} from "@e280/sten"
 import {boolean, cli, command, deathWithDignity, list, param, string} from "@benev/argv"
 
@@ -8,7 +9,6 @@ import {Params} from "./types.js"
 import {scuteCopy} from "./steps/copy.js"
 import {scuteHtml} from "./steps/html.js"
 import {scuteBundle} from "./steps/bundle.js"
-import { dedupe } from "@e280/stz"
 
 const globalExcludes = [
 	"**/node_modules",
@@ -52,7 +52,7 @@ await cli(process.argv, {
 				exclude: [...globalExcludes, ...(p.exclude ?? [])],
 			}
 
-			// WATCH MODE
+			// watch mode
 			if (params.watch) {
 				await logger.log(logger.colors.brightGreen(`🐢 scute watch`))
 
@@ -67,7 +67,7 @@ await cli(process.argv, {
 				})
 			}
 
-			// BUILD MODE
+			// build mode
 			else {
 				await logger.log(logger.colors.brightGreen(`🐢 scute build`))
 				for (const p of params.in.filter(p => !params.out.includes(p)))

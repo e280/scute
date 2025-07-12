@@ -23,7 +23,7 @@ export const scuteCopy: Step = {
 		const stop = watch(
 			copyFromDirs,
 			params.copy,
-			params.exclude ?? [],
+			params.exclude,
 			async() => {
 				const ops = await findCopyOperations(params)
 				await copy(logger, ops)

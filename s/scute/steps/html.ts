@@ -3,29 +3,36 @@ import {$} from "zx"
 import npath from "node:path"
 import {fileURLToPath} from "node:url"
 
+import {watch} from "../utils/watch.js"
 import {Params, Step} from "../types.js"
 import {findPaths} from "../utils/find-paths.js"
 
 export const scuteHtml: Step = {
-	build: async params => {
-		const {logger} = params
-		const {colors} = logger
-
-		const pages = await findHtmlPages(params)
-		const ourPath = fileURLToPath(import.meta.url)
-		const cliPath = npath.resolve(npath.dirname(ourPath), "../xpage.js")
-
-		for (const page of pages) {
-			await $`node ${cliPath} ${params.out} ${page.in} ${page.out}`
-			await logger.log(`${colors.cyan(`html`)} ${page.out}`)
-		}
-	},
+	build: buildWebsite,
 
 	watch: async params => {
-		return {
-			stop: async() => {},
-		}
+		const stop = watch(
+			[params.out],
+			["**/*"],
+			params.exclude,
+			async() => buildWebsite(params),
+		)
+		return {stop}
 	},
+}
+
+async function buildWebsite(params: Params) {
+	const {logger} = params
+	const {colors} = logger
+
+	const pages = await findHtmlPages(params)
+	const ourPath = fileURLToPath(import.meta.url)
+	const cliPath = npath.resolve(npath.dirname(ourPath), "../xpage.js")
+
+	for (const page of pages) {
+		await $`node ${cliPath} ${params.out} ${page.in} ${page.out}`
+		await logger.log(`${colors.cyan(`html`)} ${page.out}`)
+	}
 }
 
 async function findHtmlPages(params: Params) {
