@@ -16,7 +16,7 @@ if (!pageSetup)
 	throw new Error(`html page template's default export is missing "${inpath}"`)
 
 const io = new Io()
-const template = await pageSetup(root)
+const template = await pageSetup(root, npath.dirname(inpath))
 const result = await template.render()
 const final = untab(result).trim() + "\n"
 await io.write(outpath, final)

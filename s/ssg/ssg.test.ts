@@ -100,12 +100,12 @@ export default Science.suite({
 
 	"versioning": {
 		"adds file hash to url": test(async() => {
-			const orb = new Orb("x", "x/tests.test.js")
+			const orb = new Orb("x", "x", "x")
 			const url = await orb.hashurl("index.js")
 			expect(/^(\S+)\?v=\S{8,64}$/.test(url)).ok()
 		}),
 		"adds file hash to url that already has a querystring": test(async() => {
-			const orb = new Orb("x", "x/tests.test.js")
+			const orb = new Orb("x", "x", "x")
 			const url = await orb.hashurl("index.js?lol=rofl")
 			expect(/^(\S+)\?lol=rofl&v=\S{8,64}$/.test(url)).ok()
 		}),
