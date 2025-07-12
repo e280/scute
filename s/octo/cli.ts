@@ -159,21 +159,31 @@ await cli(process.argv, {
 				})
 			}
 
+			async function logKilled(pane: Pane, already: boolean) {
+				const flag = colors.blue(
+					already
+						? `dead`
+						: `kill`
+				)
+				const pid = colors.green(pane.proc.pid?.toString() ?? "-")
+				const cmdline = colors.dim(colors.green(truncateCommand(pane.command)))
+				notes.push(`🐙 ${flag} ${pid} ${cmdline}`)
+				await draw()
+			}
+
 			onDeath(async() => {
 				const waiting: Promise<void>[] = []
 				for (const pane of panes) {
-					if (pane.proc.killed || pane.exited)
+					if (pane.proc.killed || pane.exited) {
+						await logKilled(pane, true)
 						continue
+					}
 					pane.proc.kill("SIGTERM")
 					await draw()
 					const deferred = defer<void>()
 					waiting.push(deferred.promise)
 					pane.proc.on("exit", async() => {
-						const flag = colors.blue(`closed`)
-						const pid = colors.green(pane.proc.pid?.toString() ?? "-")
-						const cmdline = colors.dim(colors.green(truncateCommand(pane.command)))
-						notes.push(`🐙 ${flag} ${pid} ${cmdline}`)
-						await draw()
+						await logKilled(pane, false)
 						deferred.resolve()
 					})
 				}
