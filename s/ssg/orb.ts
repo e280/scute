@@ -85,7 +85,7 @@ export class Orb {
 	}
 
 	/** read the text from location and inject it inline directly */
-	inline = async(pathy: string) => {
+	inject = async(pathy: string) => {
 		const text = await this.io.read(this.path(pathy))
 		return html.raw(text)
 	}

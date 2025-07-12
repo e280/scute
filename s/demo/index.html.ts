@@ -7,7 +7,7 @@ export default html.template(import.meta.url, async orb => html`
 		<head>
 			<script type=module src="${orb.hashurl("main.bundle.js")}"></script>
 			<link rel=stylesheet href="${orb.hashurl("main.css")}"/>
-			${orb.inline("main.css")}
+			${orb.inject("main.css")}
 		</head>
 		<body>
 			<h1>scute demo</h1>

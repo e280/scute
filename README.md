@@ -3,13 +3,8 @@
 
 <br/>
 
-> [!IMPORTANT]  
-> scute doesn't work yet. it's not done. wip.
-
-<br/>
-
 # scute — your lil buildy bundly buddy
-- 🐢🪄 `@e280/scute` is a library for html templating
+- 🪄 `@e280/scute` is a library for html templating
 - 🐢 `scute` cli is a zero-config static-site-generator
 - 🐙 `octo` cli is a tiny terminal multiplexer for watch routines
 
@@ -30,13 +25,15 @@
 <br/>
 
 ## tldr — setup your app
+1. understand — these are not requirements — this is just the golden path we like for our stuff
 1. setup your typescript app with your ts code in `s/` dir, and outputting to `x/` dir
 1. install a server like `http-server` for previewing your app in development
 1. setup a `tests.test.ts` test suite with [@e280/science](https://github.com/e280/science)
 1. add these build and watch scripts to your npm package.json
     ```json
-    {
+    "scripts": {
       "build": "rm -rf x && tsc && scute -v",
+      "test": "node x/tests.test.js",
       "watch": "npm run build && octo 'scute -vw' 'tsc -w' 'node --watch x/tests.test.js' 'http-server x'"
     }
     ```
@@ -49,11 +46,11 @@
 
 <br/>
 
-## 🐢🪄 scute html templating
+## 🪄 scute html templating
 
 ### tldr `s/index.html.ts`
 
-`temple.page` is a boilerplate helper for whipping up webpages.
+`temple.page` is a boilerplate helper for whipping up webpages. it makes an <html> document.
 
 ```ts
 import {temple, html} from "@e280/scute"
@@ -62,7 +59,7 @@ export default temple.page(import.meta.url, orb => ({
   title: "cool website",
 
   // optional
-  css: "main.css", // relative to this module
+  css: "main.css", // css file injected as <style>
   dark: true, // disable darkreader
 
   // content for your <head>
@@ -72,21 +69,21 @@ export default temple.page(import.meta.url, orb => ({
 
   // opengraph social card (optional)
   socialCard: {
-		themeColor: "#8FCC8F",
-		title: "scute",
-		description: "lil buildy bundly buddy",
-		siteName: "https://e280.org/",
-		image: `https://e280.org/assets/e.png`,
-	}
+    themeColor: "#8FCC8F",
+    title: "scute",
+    description: "lil buildy bundly buddy",
+    siteName: "https://e280.org/",
+    image: `https://e280.org/assets/e.png`,
+  },
 
   // content for your <body>
   body: html`
-    <h1>cool website</h1>
+    <h1>incredi website</h1>
   `,
 }))
 ```
 
-> *did you notice the `orb`? we speak not of the all-powerful orb.. yet..*
+> *did you notice the `orb`? we must'nt speak of the all-powerful orb, yet..*
 
 ### html
 - import `html`
@@ -117,6 +114,7 @@ export default temple.page(import.meta.url, orb => ({
   await html`<div>${Promise.resolve("async magic")}</div>`.render()
     // "<div>async magic</div>"
   ```
+  the rendering is handled automatically by the scute cli
 
 ### html partials
 
@@ -126,18 +124,18 @@ import {html} from "@e280/scute"
 
 export const partial = html.template(import.meta.url, async orb => html`
   <div>
-    <img alt="" src="${orb.url("turtle.avif")}"/>
+    <img alt="" src="${orb.url("../images/turtle.avif")}"/>
   </div>
 `)
 ```
 
-> *omg, the orb's url is relative to `partial.ts`..*  
-> *this orb must contain unspeakable power..*  
+> *omg, orb.url is relative to `partial.ts`?? this orb must contain unspeakable power..*
 
 ### html pages
 
 scute automatically builds html pages with the `.html.ts` or `.html.js` extension, which must export a default `html.template`.
 
+`page.html.ts`
 ```ts
 import {html} from "@e280/scute"
 import {partial} from "./partial.js"
@@ -156,16 +154,15 @@ export default html.template(import.meta.url, async orb => html`
 `)
 ```
 
-> *`orb.place` is used to plop a template into another,*  
-> *while keeping the orb's relative pathing powers intact..*  
+> *`orb.place` to insert one template into another, while maintaining relative pathing..*
 
 ### 🔮 the almighty orb
 
 every template gets an `Orb` instance,
 - the orb's superpower is dealing with paths and urls
-- the orb allows you to reference file files *relative to the current template module*
-- regardless of how you import html partials from all around your codebase
-- this should impress you
+- the orb allows you to reference files *relative to the current template module*,  
+  regardless of how you import html partials from all around your codebase.  
+  *this should impress you.*  
 
 the orb has magic pathing conventions,
 - 🧙‍♂️ ***important!*** all orb functions that expect path strings respect these conventions
@@ -190,9 +187,9 @@ orb provides these pathing functions,
   yes, it's reading the target file on disk and producing a sha256 hash of it.  
 
 orb also provides these fns,
-- `orb.inline("main.css")`  
+- `orb.inject("main.css")`  
   read the contents of that file, and inject it raw without sanitization.  
-  used to inline stuff like stylesheets, json, scripts, stuff like that.  
+  used to insert text directly, like <style>, <script>, json, stuff like that.  
 - `orb.place(partial)`  
   prepare a partial template for insertion into this template, preserving relative pathing magic.  
 - `orb.packageVersion()`  
@@ -283,7 +280,7 @@ here's a typical watch routine with octo
 octo \
   "scute --verbose --watch" \
   "tsc -w" \
-  "node --watch x/test.tests.ts" \
+  "node --watch x/tests.test.ts" \
   "http-server x"
 ```
 
