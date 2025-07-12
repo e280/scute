@@ -4,7 +4,7 @@ import {createHash} from "node:crypto"
 
 import {Io} from "./io.js"
 import {html, PageSetupFn} from "./html.js"
-import {urlToPath} from "./tools/url-to-path.js"
+import {parseUrl} from "./tools/parse-url.js"
 
 export class Orb {
 	constructor(
@@ -30,8 +30,8 @@ export class Orb {
 	 */
 	url = (pathy: string) => {
 		const bridge = (from: string, to: string) => u.normalize(npath.relative(
-			npath.resolve(from),
-			npath.resolve(npath.join(this.local, to)),
+			npath.resolve(this.base),
+			npath.resolve(npath.join(from, to)),
 		))
 
 		if (pathy.startsWith("/"))
@@ -41,7 +41,7 @@ export class Orb {
 			return bridge(process.cwd(), pathy.slice(2))
 
 		else
-			return bridge(this.base, pathy)
+			return bridge(this.local, pathy)
 	}
 
 	/**
@@ -51,19 +51,19 @@ export class Orb {
 	 *  - all other paths are relative to this local .html.js file
 	 */
 	path = (pathy: string) => {
-		const bridge = (to: string) => npath.relative(
+		const bridge = (from: string, to: string) => npath.relative(
 			process.cwd(),
-			npath.resolve(npath.join(this.local, urlToPath(to))),
+			npath.resolve(npath.join(from, parseUrl(to).path)),
 		)
 
 		if (pathy.startsWith("/"))
-			return bridge(pathy.slice(1))
+			return bridge(this.root, pathy.slice(1))
 
 		else if (pathy.startsWith("$/"))
-			return bridge(pathy.slice(2))
+			return bridge(process.cwd(), pathy.slice(2))
 
 		else
-			return bridge(pathy)
+			return bridge(this.local, pathy)
 	}
 
 	/**
@@ -78,9 +78,10 @@ export class Orb {
 		const hash = createHash("sha256")
 			.update(text)
 			.digest("hex")
-		const u = new URL(url, "https://e280.org/")
-		u.searchParams.set("v", hash.slice(0, 12))
-		return u.pathname.slice(1) + u.search + u.hash
+		const parsed = parseUrl(url)
+		const params = new URLSearchParams(parsed.search)
+		params.set("v", hash.slice(0, 12))
+		return parsed.path + "?" + params.toString() + parsed.hash
 	}
 
 	/** read the text from location and inject it inline directly */
