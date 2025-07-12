@@ -110,7 +110,8 @@ await cli(process.argv, {
 				const proc = spawn(exe, args, {
 					env: {
 						...process.env,
-						PATH: `${localBin}:${process.env.PATH}`
+						PATH: `${localBin}:${process.env.PATH}`,
+						FORCE_COLOR: "1",
 					},
 				})
 				const pane: Pane = {command, exe, proc, exited: false, content: []}
