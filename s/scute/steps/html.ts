@@ -5,6 +5,7 @@ import {fileURLToPath} from "node:url"
 
 import {watch} from "../utils/watch.js"
 import {Params, Step} from "../types.js"
+import {zxErrors} from "../utils/zx-errors.js"
 import {findPaths} from "../utils/find-paths.js"
 
 export const scuteHtml: Step = {
@@ -15,7 +16,10 @@ export const scuteHtml: Step = {
 			dirs: [params.out],
 			patterns: ["**/*"],
 			exclude: params.exclude,
-			fn: async() => buildWebsite(params),
+			fn: async() => {
+				try { await buildWebsite(params) }
+				catch (error) {}
+			},
 		})
 		return {stop}
 	},
@@ -30,8 +34,10 @@ async function buildWebsite(params: Params) {
 	const cliPath = npath.resolve(npath.dirname(ourPath), "../xpage.js")
 
 	await Promise.all(pages.map(async page => {
-		await $`node ${cliPath} ${params.out} ${page.in} ${page.out}`
-		await logger.log(`${colors.cyan(`html`)} ${page.out}`)
+		await zxErrors(async() => {
+			await $`node ${cliPath} ${params.out} ${page.in} ${page.out}`
+			await logger.log(`${colors.cyan(`html`)} ${page.out}`)
+		})
 	}))
 }
 
