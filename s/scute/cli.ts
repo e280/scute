@@ -16,7 +16,7 @@ const {onDeath} = deathWithDignity()
 await cli(process.argv, {
 	name: "🐢 scute",
 	help: `
-		lil buildy bundly buddy for your web projects
+		zero-config static site generator
 		- copies files like .css
 		- bundles .bundle.js files with esbuild
 		- builds .html.js template files
