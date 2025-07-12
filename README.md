@@ -55,12 +55,13 @@
 ```ts
 import {temple, html} from "@e280/scute"
 
-export default temple.page(import.meta.url, orb => ({
+export default temple.page(import.meta.url, async orb => ({
   title: "cool website",
 
   // optional
   css: "main.css", // css file injected as <style>
   dark: true, // disable darkreader
+  favicon: "/assets/favicon.png",
 
   // content for your <head>
   head: html`

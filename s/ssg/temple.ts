@@ -44,7 +44,7 @@ export const temple = {
 						${options.dark ? temple.meta.darkreaderDisable() : null}
 						<title>${options.title}</title>
 						${options.css && html`<style>${await orb.inject(options.css)}</style>`}
-						${options.favicon && temple.meta.favicon(options.favicon)}
+						${options.favicon && temple.meta.favicon(await orb.hashurl(options.favicon))}
 						${options.socialCard && temple.meta.socialCard(options.socialCard)}
 						${options.head}
 					</head>
