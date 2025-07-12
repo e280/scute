@@ -111,6 +111,7 @@
       - press 2 to see the tsc output
       - press [ or h or j to shimmy left
       - press ] or l or k to shimmy right
+      - press backspace to clear the pane
       - press q or ctrl+c to quit
 
     local npm bin is available,

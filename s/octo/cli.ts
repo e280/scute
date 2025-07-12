@@ -34,6 +34,7 @@ await cli(process.argv, {
 					- press 2 to see the tsc output
 					- press [ or h or j to shimmy left
 					- press ] or l or k to shimmy right
+					- press backspace to clear the pane
 					- press q or ctrl+c to quit
 
 				local npm bin is available,
@@ -87,18 +88,21 @@ await cli(process.argv, {
 			readline.emitKeypressEvents(process.stdin)
 			process.stdin.setRawMode(true)
 
-			process.stdin.on("keypress", async(key, data) => {
+			process.stdin.on("keypress", async(s, key) => {
 				const exitRequested = (
-					(data.name === "q") ||
-					(data.ctrl && data.name === "c")
+					(key.name === "q") ||
+					(key.ctrl && key.name === "c")
 				)
 
 				if (exitRequested)
 					await pleaseExit(0)
 
-				if (key === "[" || key === "h" || key === "j") active = (active - 1 + panes.length) % panes.length
-				if (key === "]" || key === "l" || key === "k") active = (active + 1) % panes.length
-				if (key >= "1" && key <= String(panes.length)) active = parseInt(key) - 1
+				if (s === "[" || s === "h" || s === "j") active = (active - 1 + panes.length) % panes.length
+				if (s === "]" || s === "l" || s === "k") active = (active + 1) % panes.length
+				if (s >= "1" && s <= String(panes.length)) active = parseInt(s) - 1
+
+				if (key.name === "backspace")
+					getActivePane().content = []
 
 				await draw()
 			})
