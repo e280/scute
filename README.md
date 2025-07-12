@@ -46,7 +46,7 @@
 
 <br/>
 
-## 🪄 scute html templating
+## 🪄 `@e280/scute` html templating
 
 ### tldr `s/index.html.ts`
 
@@ -187,11 +187,11 @@ orb provides these pathing functions,
   yes, it's reading the target file on disk and producing a sha256 hash of it.  
 
 orb also provides these fns,
+- `orb.place(partial)`  
+  prepare a partial template for insertion into this template, preserving relative pathing magic.  
 - `orb.inject("main.css")`  
   read the contents of that file, and inject it raw without sanitization.  
   used to insert text directly, like <style>, <script>, json, stuff like that.  
-- `orb.place(partial)`  
-  prepare a partial template for insertion into this template, preserving relative pathing magic.  
 - `orb.packageVersion()`  
   returns the `version` string found in your `package.json`.  
 
@@ -275,7 +275,7 @@ orb also provides a convenient `orb.io` facility,
       $ npx scute -vw  # BAD npx is unnecessary
 ```
 
-here's a typical watch routine with octo
+here's a typical 4-pane watch routine with octo
 ```sh
 octo \
   "scute --verbose --watch" \
