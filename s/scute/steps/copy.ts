@@ -20,19 +20,15 @@ export const scuteCopy: Step = {
 		const copyFromDirs = params.in
 			.filter(p => resolve(p) !== resolve(params.out))
 
-		const stop = watch(
-			copyFromDirs,
-			params.copy,
-			params.exclude,
-			async() => {
+		const stop = watch({
+			dirs: copyFromDirs,
+			patterns: params.copy,
+			exclude: params.exclude,
+			fn: async() => {
 				const ops = await findCopyOperations(params)
 				await copy(logger, ops)
 			},
-		)
-
-		const ops = await findCopyOperations(params)
-		for (const op of ops)
-			await logger.log(`${logger.colors.magenta(`copy`)} ${logger.colors.dim("watch")} ${op.in}`)
+		})
 
 		return {stop: async() => stop()}
 	},

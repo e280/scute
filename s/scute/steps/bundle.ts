@@ -26,7 +26,6 @@ export const scuteBundle: Step = {
 		const {logger} = params
 		const bundles = await findBundles(params)
 		const contexts = await Promise.all(bundles.map(async bundle => {
-			await logger.log(`${logger.colors.yellow(`bund`)} ${logger.colors.dim("watch")} ${bundle.in}`)
 			const context = await esbuild.context({
 				entryPoints: [bundle.in],
 				outfile: bundle.out,

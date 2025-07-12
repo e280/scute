@@ -1,25 +1,27 @@
 
 import braces from "braces"
+import npath from "node:path"
 import chokidar from "chokidar"
 import {debounce} from "@e280/stz"
 import {minimatch} from "minimatch"
+import { scuteConstants } from "../constants.js"
 
-export function watch(
-		dirs: string[],
-		patterns: string[],
-		exclude: string[],
-		fn: () => Promise<void>,
-	) {
+export function watch(o: {
+		dirs: string[]
+		patterns: string[]
+		exclude: string[]
+		fn: () => Promise<void>
+	}) {
 
 	let busy = false
 
 	const isAllowed = (path: string) => {
-		const isExcluded = exclude
+		const isExcluded = o.exclude
 			.flatMap(pattern => braces(pattern))
 			.flatMap(pattern => [pattern, pattern + "/**"])
 			.some(pattern => minimatch(path, pattern))
 
-		const isMatching = patterns
+		const isMatching = o.patterns
 			.flatMap(pattern => braces(pattern))
 			.flatMap(pattern => [pattern, pattern + "/**"])
 			.some(pattern => minimatch(path, pattern))
@@ -27,13 +29,15 @@ export function watch(
 		return isMatching && !isExcluded
 	}
 
-	const watcher = chokidar.watch(dirs, {ignoreInitial: true})
-		.on("all", debounce(500, async(_event, path: string) => {
+	const ms = scuteConstants.watchDebounceMs
+
+	const watcher = chokidar.watch(o.dirs, {ignoreInitial: true})
+		.on("all", debounce(ms, async(_event, path: string) => {
 			if (!isAllowed(path))
 				return undefined
 			if (busy) return undefined
 			busy = true
-			try { await fn() }
+			try { await o.fn() }
 			finally { busy = false }
 		}))
 

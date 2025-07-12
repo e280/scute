@@ -9,11 +9,7 @@ import {Params} from "./types.js"
 import {scuteCopy} from "./steps/copy.js"
 import {scuteHtml} from "./steps/html.js"
 import {scuteBundle} from "./steps/bundle.js"
-
-const globalExcludes = [
-	"**/node_modules",
-	"**/.git",
-]
+import { scuteConstants } from "./constants.js"
 
 const {onDeath} = deathWithDignity()
 
@@ -49,12 +45,19 @@ await cli(process.argv, {
 				...p,
 				in: dedupe([...p.in, p.out]),
 				logger,
-				exclude: [...globalExcludes, ...(p.exclude ?? [])],
+				exclude: [...scuteConstants.globalExcludes, ...(p.exclude ?? [])],
+			}
+
+			const logBasics = async() => {
+				for (const p of params.in.filter(p => !params.out.includes(p)))
+					await logger.log(`${logger.colors.dim("in")}   ${resolve(p)}`)
+				await logger.log(`${logger.colors.dim("out")}  ${resolve(params.out)}`)
 			}
 
 			// watch mode
 			if (params.watch) {
 				await logger.log(logger.colors.brightGreen(`🐢 scute watch`))
+				await logBasics()
 
 				const watchers = [
 					await scuteBundle.watch(params),
@@ -70,9 +73,7 @@ await cli(process.argv, {
 			// build mode
 			else {
 				await logger.log(logger.colors.brightGreen(`🐢 scute build`))
-				for (const p of params.in.filter(p => !params.out.includes(p)))
-					await logger.log(`${logger.colors.dim("in")}   ${resolve(p)}`)
-				await logger.log(`${logger.colors.dim("out")}  ${resolve(params.out)}`)
+				await logBasics()
 				await scuteBundle.build(params)
 				await scuteCopy.build(params)
 				await scuteHtml.build(params)

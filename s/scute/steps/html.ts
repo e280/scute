@@ -11,12 +11,12 @@ export const scuteHtml: Step = {
 	build: buildWebsite,
 
 	watch: async params => {
-		const stop = watch(
-			[params.out],
-			["**/*"],
-			params.exclude,
-			async() => buildWebsite(params),
-		)
+		const stop = watch({
+			dirs: [params.out],
+			patterns: ["**/*"],
+			exclude: params.exclude,
+			fn: async() => buildWebsite(params),
+		})
 		return {stop}
 	},
 }
@@ -29,10 +29,10 @@ async function buildWebsite(params: Params) {
 	const ourPath = fileURLToPath(import.meta.url)
 	const cliPath = npath.resolve(npath.dirname(ourPath), "../xpage.js")
 
-	for (const page of pages) {
+	await Promise.all(pages.map(async page => {
 		await $`node ${cliPath} ${params.out} ${page.in} ${page.out}`
 		await logger.log(`${colors.cyan(`html`)} ${page.out}`)
-	}
+	}))
 }
 
 async function findHtmlPages(params: Params) {
