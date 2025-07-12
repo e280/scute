@@ -113,18 +113,31 @@ await cli(process.argv, {
 						PATH: `${localBin}:${process.env.PATH}`,
 						FORCE_COLOR: "1",
 					},
+					detached: true,
+					stdio: ["pipe", "pipe", "pipe"],
 				})
 				const pane: Pane = {command, exe, proc, exited: false, content: []}
 				panes.push(pane)
 
+				const screenClearing = [
+					/x1B\[2J/g,
+					/\x1Bc/g,
+					/\x0C/g,
+				]
+
 				const append = async(chunk: Buffer) => {
 					const string = chunk.toString()
-					if (/\x1B\[2J/g.test(string)) // clear pane
+					if (screenClearing.some(r => r.test(string))) // clear pane
 						pane.content = []
-					const s = string
-						.replace(/\x1B\[2J/g, "")       // clear screen
+					let s = string
 						.replace(/\x1B\[\d+;\d+H/g, "") // cursor move
 						.replace(/\x1B\[H/g, "")        // alternate cursor move
+						.replace(/\x1B\[0f/g, "")       // also cursor home (used by some CLIs)
+						.replace(/\x1B\[3J/g, "")            // clear scrollback (sometimes used)
+						.replace(/\x1B\[0f/g, "")            // alternate cursor home
+						.replace(/\x1B\[\?1049[hl]/g, "")    // alt screen buffer on/off
+					for (const r of screenClearing)
+						s = s.replace(r, "")
 					pane.content.push(s)
 					pane.content = pane.content.slice(-128)
 					if (getActivePane() === pane)

@@ -36,7 +36,6 @@ await cli(process.argv, {
 		async execute({params: p}) {
 			const logger = new Logger()
 				.setShaper(Logger.shapers.errors())
-				.setColors(Logger.colors.colorful())
 
 			if (!p.verbose)
 				logger.setWriter(Logger.writers.void())
