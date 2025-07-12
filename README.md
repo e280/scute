@@ -34,7 +34,7 @@
     "scripts": {
       "build": "rm -rf x && tsc && scute -v",
       "test": "node x/tests.test.js",
-      "watch": "npm run build && octo 'scute -vw' 'tsc -w' 'node --watch x/tests.test.js' 'http-server x'"
+      "watch": "npm run build && octo 'scute -wv' 'tsc -w' 'node --watch x/tests.test.js' 'http-server x'"
     }
     ```
 1. write `.html.ts` files with default exported templates
@@ -261,7 +261,7 @@ orb also provides a convenient `orb.io` facility,
     each command gets its own pane that you can flip between.
 
     for example,
-      $ octo "scute -vw" "tsc -w"
+      $ octo "scute -wv" "tsc -w"
 
     this will give you two panes,
       - press 1 to see the scute output
@@ -272,8 +272,8 @@ orb also provides a convenient `orb.io` facility,
       - press q or ctrl+c to quit
 
     local npm bin is available,
-      $ scute -vw      # GOOD this works
-      $ npx scute -vw  # BAD npx is unnecessary
+      $ scute -wv      # GOOD this works
+      $ npx scute -wv  # BAD npx is unnecessary
 ```
 
 here's a typical 4-pane watch routine with octo

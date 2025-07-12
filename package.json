@@ -16,7 +16,7 @@
 	},
 	"scripts": {
 		"build": "run-s _clean _links _tsc _scute",
-		"watch": "npm run build -s && node ./x/octo/cli.js 'node ./x/scute/cli.js -vw' 'npm run test-watch' 'npm run _tscw' 'http-server x'",
+		"watch": "npm run build -s && node ./x/octo/cli.js 'node ./x/scute/cli.js -wv' 'npm run test-watch' 'npm run _tscw' 'http-server x'",
 		"_scute": "node ./x/scute/cli.js -v",
 		"_clean": "rm -rf x && mkdir x",
 		"_links": "ln -s \"$(realpath assets)\" x/assets && ln -s \"$(realpath node_modules)\" x/node_modules",
