@@ -1,0 +1,81 @@
+
+import * as nodePath from "node:path"
+import {createHash} from "node:crypto"
+
+import {Io} from "./io.js"
+import {html, PageSetupFn} from "./html.js"
+
+export class Orb {
+	backToRoot: string
+	backToWorking: string
+
+	constructor(public root: string, public local: string) {
+		this.backToRoot = nodePath.relative(local, root)
+		this.backToWorking = nodePath.relative(local, "./")
+	}
+
+	/** utils for reading/writing text files */
+	io = new Io()
+
+	/**
+	 * resolve a relative path
+	 *  - paths starting with "/" is relative to the output dir like x/
+	 *  - paths starting with "$/" is relative to the shell current working directory
+	 *  - all other paths are relative to this local .html.js file
+	 */
+	rel = (pathy: string): {url: URL, path: string} => {
+		if (pathy.startsWith("/")) {
+			const substance = pathy.slice(1)
+			return {
+				url: new URL(this.backToRoot, substance),
+				path: nodePath.join(this.root, substance),
+			}
+		}
+		else if (pathy.startsWith("$/")) {
+			const substance = pathy.slice(2)
+			return {
+				url: new URL(this.backToWorking, substance),
+				path: nodePath.normalize(substance),
+			}
+		}
+		else {
+			return {
+				url: new URL(".", pathy),
+				path: nodePath.join(this.local, pathy),
+			}
+		}
+	}
+
+	/**
+	 * attach a hash version url query param
+	 *  - looks like "?v=d34da7f7b122"
+	 *  - it actually hashes the content of the real file
+	 */
+	hashurl = async(pathy: string) => {
+		const {path, url} = this.rel(pathy)
+		const text = await this.io.read(path)
+		const hash = createHash("sha256")
+			.update(text)
+			.digest("hex")
+		url.searchParams.set("v", hash.slice(0, 12))
+		return url
+	}
+
+	/** read the text from location and inject it inline directly */
+	inline = async(path: string) => {
+		const text = await this.io.read(path)
+		return html.raw(text)
+	}
+
+	/** insert another page into this one */
+	async page(fn: PageSetupFn) {
+		return fn(this.root)
+	}
+
+	/** yoink the "version" string from your package.json */
+	packageVersion = async() => {
+		const packageJson = await this.io.readJson("package.json")
+		return packageJson.version as string
+	}
+}
+

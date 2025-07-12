@@ -1,12 +1,13 @@
 
 import {globby} from "globby"
 import {sep, join, resolve} from "path"
+import {FilePath} from "../../ssg/types.js"
 
 export async function findPaths(
 		directories: string[],
 		patterns: string[],
 		excludes: string[],
-	) {
+	): Promise<FilePath[]> {
 
 	return (await Promise.all(
 		directories.map(async directory => {
