@@ -8,10 +8,11 @@ import {Params} from "./types.js"
 import {scuteCopy} from "./steps/copy.js"
 import {scuteHtml} from "./steps/html.js"
 import {scuteBundle} from "./steps/bundle.js"
+import { dedupe } from "@e280/stz"
 
 const globalExcludes = [
-	"**/node_modules/**",
-	"**/.git/**",
+	"**/node_modules",
+	"**/.git",
 ]
 
 const {onDeath} = deathWithDignity()
@@ -28,7 +29,7 @@ await cli(process.argv, {
 		args: [],
 		params: {
 			watch: param.flag("w", {help: `watch mode`}),
-			in: param.default(list(string), "s,x", {help: `dirs to read from`}),
+			in: param.default(list(string), "s", {help: `dirs to read from`}),
 			out: param.default(string, "x", {help: `output dir`}),
 			copy: param.default(list(string), "**/*.css,**/*.json,**/*.txt", {help: `what files should we copy verbatim?`}),
 			bundle: param.default(boolean, "yes", {help: `should we bundle .bundle.js files?`}),
@@ -46,6 +47,7 @@ await cli(process.argv, {
 
 			const params: Params = {
 				...p,
+				in: dedupe([...p.in, p.out]),
 				logger,
 				exclude: [...globalExcludes, ...(p.exclude ?? [])],
 			}
@@ -55,8 +57,8 @@ await cli(process.argv, {
 				await logger.log(logger.colors.brightGreen(`🐢 scute watch`))
 
 				const watchers = [
-					await scuteCopy.watch(params),
 					await scuteBundle.watch(params),
+					await scuteCopy.watch(params),
 					await scuteHtml.watch(params),
 				]
 
@@ -68,11 +70,11 @@ await cli(process.argv, {
 			// BUILD MODE
 			else {
 				await logger.log(logger.colors.brightGreen(`🐢 scute build`))
-				for (const p of params.in)
-					await logger.log(`in "${resolve(p)}"`)
-				await logger.log(`out "${resolve(params.out)}"`)
-				await scuteCopy.build(params)
+				for (const p of params.in.filter(p => !params.out.includes(p)))
+					await logger.log(`${logger.colors.dim("in")}   ${resolve(p)}`)
+				await logger.log(`${logger.colors.dim("out")}  ${resolve(params.out)}`)
 				await scuteBundle.build(params)
+				await scuteCopy.build(params)
 				await scuteHtml.build(params)
 			}
 		},

@@ -1,5 +1,5 @@
 
-import * as nodePath from "node:path"
+import * as npath from "node:path"
 import {createHash} from "node:crypto"
 
 import {Io} from "./io.js"
@@ -10,8 +10,8 @@ export class Orb {
 	backToWorking: string
 
 	constructor(public root: string, public local: string) {
-		this.backToRoot = nodePath.relative(local, root)
-		this.backToWorking = nodePath.relative(local, "./")
+		this.backToRoot = npath.relative(local, root)
+		this.backToWorking = npath.relative(local, "./")
 	}
 
 	/** utils for reading/writing text files */
@@ -23,25 +23,25 @@ export class Orb {
 	 *  - paths starting with "$/" is relative to the shell current working directory
 	 *  - all other paths are relative to this local .html.js file
 	 */
-	rel = (pathy: string): {url: URL, path: string} => {
+	rel = (pathy: string): {url: string, path: string} => {
 		if (pathy.startsWith("/")) {
 			const substance = pathy.slice(1)
 			return {
-				url: new URL(this.backToRoot, substance),
-				path: nodePath.join(this.root, substance),
+				url: `${this.backToRoot}/${substance}`,
+				path: npath.join(substance, this.root),
 			}
 		}
 		else if (pathy.startsWith("$/")) {
 			const substance = pathy.slice(2)
 			return {
-				url: new URL(this.backToWorking, substance),
-				path: nodePath.normalize(substance),
+				url: `${this.backToWorking}/${substance}`,
+				path: npath.normalize(substance),
 			}
 		}
 		else {
 			return {
-				url: new URL(".", pathy),
-				path: nodePath.join(this.local, pathy),
+				url: pathy,
+				path: npath.join(npath.dirname(this.local), pathy),
 			}
 		}
 	}
@@ -57,8 +57,9 @@ export class Orb {
 		const hash = createHash("sha256")
 			.update(text)
 			.digest("hex")
-		url.searchParams.set("v", hash.slice(0, 12))
-		return url
+		const u = new URL(url, "http://localhost/")
+		u.searchParams.set("v", hash.slice(0, 12))
+		return u.pathname + u.search + u.hash
 	}
 
 	/** read the text from location and inject it inline directly */

@@ -1,8 +1,24 @@
 
-import {Step} from "../types.js"
+import {$} from "zx"
+import npath from "node:path"
+import {fileURLToPath} from "node:url"
+
+import {Params, Step} from "../types.js"
+import {findPaths} from "../utils/find-paths.js"
 
 export const scuteHtml: Step = {
 	build: async params => {
+		const {logger} = params
+		const {colors} = logger
+
+		const pages = await findHtmlPages(params)
+		const ourPath = fileURLToPath(import.meta.url)
+		const cliPath = npath.resolve(npath.dirname(ourPath), "../xpage.js")
+
+		for (const page of pages) {
+			await $`node ${cliPath} ${params.out} ${page.in} ${page.out}`
+			await logger.log(`${colors.cyan(`html`)} ${page.out}`)
+		}
 	},
 
 	watch: async params => {
@@ -10,5 +26,23 @@ export const scuteHtml: Step = {
 			stop: async() => {},
 		}
 	},
+}
+
+async function findHtmlPages(params: Params) {
+	const paths = await findPaths(
+		params.in,
+		["**/*.html.js"],
+		params.exclude ?? [],
+	)
+
+	return paths
+		.map(path => {
+			const dir = npath.dirname(path.partial)
+			const name = npath.basename(path.partial)
+			const newpath = npath.join(dir, name.replace(/\.html\.js$/, ".html"))
+			const relativeOutput = npath.join(params.out, newpath)
+			return {in: path.relative, out: relativeOutput}
+		})
+		.filter(p => !!p)
 }
 

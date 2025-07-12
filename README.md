@@ -61,7 +61,7 @@
   --watch, -w, flag boolean
     watch mode
 
-  --in, default string-list s,x
+  --in, default string-list s
     dirs to read from
 
   --out, default string x
@@ -87,7 +87,7 @@
 > the default follows our convention of using s/ and x/ instead of src/ and dist/,  
 > but if you wanna be a normie, do this:  
 > ```sh
-> scute --in="src,dist" --out="dist"
+> scute --in="src" --out="dist"
 > ```
 
 <br/>

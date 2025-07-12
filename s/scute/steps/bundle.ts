@@ -18,7 +18,7 @@ export const scuteBundle: Step = {
 				minify: true,
 				sourcemap: true,
 			})
-			await logger.log(`${logger.colors.yellow(`bundle`)} "${bundle.in}" -> "${bundle.out}"`)
+			await logger.log(`${logger.colors.yellow(`bund`)} ${bundle.out}`)
 		}))
 	},
 
@@ -26,7 +26,7 @@ export const scuteBundle: Step = {
 		const {logger} = params
 		const bundles = await findBundles(params)
 		const contexts = await Promise.all(bundles.map(async bundle => {
-			await logger.log(`${logger.colors.yellow(`bundle`)} watching "${bundle.in}"`)
+			await logger.log(`${logger.colors.yellow(`bund`)} ${logger.colors.dim("watch")} ${bundle.in}`)
 			const context = await esbuild.context({
 				entryPoints: [bundle.in],
 				outfile: bundle.out,
@@ -41,7 +41,7 @@ export const scuteBundle: Step = {
 							for (const err of problems)
 								logger.error(err.text)
 							if (problems.length === 0)
-								logger.log(`${logger.colors.yellow(`bundle`)} "${bundle.in}" -> "${bundle.out}"`)
+								logger.log(`${logger.colors.yellow(`bund`)} ${bundle.out}`)
 						})
 					},
 				}],
