@@ -84,8 +84,8 @@ export class Orb {
 	}
 
 	/** read the text from location and inject it inline directly */
-	inline = async(path: string) => {
-		const text = await this.io.read(path)
+	inline = async(pathy: string) => {
+		const text = await this.io.read(this.path(pathy))
 		return html.raw(text)
 	}
 
@@ -95,8 +95,8 @@ export class Orb {
 	}
 
 	/** yoink the "version" string from your package.json */
-	packageVersion = async() => {
-		const packageJson = await this.io.readJson("package.json")
+	packageVersion = async(pathy = "$/package.json") => {
+		const packageJson = await this.io.readJson(this.path(pathy))
 		return packageJson.version as string
 	}
 }
