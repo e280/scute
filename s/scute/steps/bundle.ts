@@ -3,6 +3,7 @@ import * as esbuild from "esbuild"
 import {basename, dirname, join} from "path"
 
 import {Params, Step} from "../types.js"
+import {scuteConstants} from "../constants.js"
 import {findPaths} from "../utils/find-paths.js"
 
 export const scuteBundle: Step = {
@@ -45,7 +46,7 @@ export const scuteBundle: Step = {
 					},
 				}],
 			})
-			await context.watch()
+			await context.watch({delay: scuteConstants.watchDebounceMs})
 			return context
 		}))
 		return {

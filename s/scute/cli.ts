@@ -9,7 +9,7 @@ import {Params} from "./types.js"
 import {scuteCopy} from "./steps/copy.js"
 import {scuteHtml} from "./steps/html.js"
 import {scuteBundle} from "./steps/bundle.js"
-import { scuteConstants } from "./constants.js"
+import {scuteConstants} from "./constants.js"
 
 const {onDeath} = deathWithDignity()
 

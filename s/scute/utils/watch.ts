@@ -1,10 +1,9 @@
 
 import braces from "braces"
-import npath from "node:path"
 import chokidar from "chokidar"
 import {debounce} from "@e280/stz"
 import {minimatch} from "minimatch"
-import { scuteConstants } from "../constants.js"
+import {scuteConstants} from "../constants.js"
 
 export function watch(o: {
 		dirs: string[]
