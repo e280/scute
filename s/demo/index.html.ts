@@ -18,7 +18,7 @@ export default html.template(import.meta.url, async orb => html`
 			</div>
 
 			<div class=partial>
-				${orb.template(partial)}
+				${orb.place(partial)}
 			</div>
 		</body>
 	</html>

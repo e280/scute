@@ -3,7 +3,7 @@ import npath, {posix as u} from "node:path"
 import {createHash} from "node:crypto"
 
 import {Io} from "./io.js"
-import {html, PageSetupFn} from "./html.js"
+import {html, TemplateFn} from "./html.js"
 import {parseUrl} from "./tools/parse-url.js"
 
 export class Orb {
@@ -90,8 +90,8 @@ export class Orb {
 		return html.raw(text)
 	}
 
-	/** insert another page into this one */
-	async template(fn: PageSetupFn) {
+	/** insert a template into this one, passing the pathing info */
+	async place(fn: TemplateFn) {
 		return fn(this.root, this.base)
 	}
 

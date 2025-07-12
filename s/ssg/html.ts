@@ -8,8 +8,8 @@ export type HtmlOptions = {
 	values: any[]
 }
 
-export type PageFn = (orb: Orb) => Promise<Html>
-export type PageSetupFn = (root: string, base: string) => Promise<Html>
+export type RenderFn = (orb: Orb) => Promise<Html>
+export type TemplateFn = (root: string, base: string) => Promise<Html>
 
 export class Html {
 	static html = html
@@ -89,7 +89,7 @@ html.attr = {
 	),
 }
 
-html.template = (importMetaUrl: string, fn: PageFn): PageSetupFn => {
+html.template = (importMetaUrl: string, fn: RenderFn): TemplateFn => {
 	return (root: string, base: string) => {
 		const local = nodePath.dirname(nodePath.relative(process.cwd(), fileURLToPath(importMetaUrl)))
 		const orb = new Orb(root, base, local)
