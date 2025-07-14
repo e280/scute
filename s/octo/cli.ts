@@ -43,6 +43,11 @@ await cli(process.argv, {
 			`,
 		},
 		async execute({extraArgs}) {
+			if (extraArgs.length === 0) {
+				await logger.error(`octo requires at least one command, get some --help`)
+				process.exit(1)
+			}
+
 			type Pane = {
 				command: string
 				exe: string
