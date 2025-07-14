@@ -64,7 +64,7 @@ export default ssg.page(import.meta.url, async orb => ({
   title: "cool website",
 
   // optional
-  js: "main.js", // js module entrypoint
+  js: "main.bundle.min.js", // js module entrypoint
   css: "main.css", // css file injected as <style>
   dark: true, // disable darkreader
   favicon: "/assets/favicon.png",
