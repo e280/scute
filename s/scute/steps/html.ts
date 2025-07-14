@@ -3,33 +3,28 @@ import {$} from "zx"
 import npath from "node:path"
 import {fileURLToPath} from "node:url"
 
-import {watch} from "../utils/watch.js"
-import {Params, Step} from "../types.js"
+import {step} from "../types.js"
 import {zxErrors} from "../utils/zx-errors.js"
 import {findPaths} from "../utils/find-paths.js"
 
-export const scuteHtml: Step = {
-	build: buildWebsite,
-
-	watch: async params => {
-		const stop = watch({
-			dirs: [params.out],
-			patterns: ["**/*"],
-			exclude: params.exclude,
-			fn: async() => {
-				try { await buildWebsite(params) }
-				catch (error) {}
-			},
-		})
-		return {stop}
-	},
-}
-
-async function buildWebsite(params: Params) {
+export const htmlStep = step(async params => {
 	const {logger} = params
 	const {colors} = logger
 
-	const pages = await findHtmlPages(params)
+	const paths = await findPaths(
+		[...params.in, params.out],
+		["**/*.html.js"],
+		params.exclude,
+	)
+
+	const pages = paths.map(path => {
+		const dir = npath.dirname(path.partial)
+		const name = npath.basename(path.partial)
+		const newpath = npath.join(dir, name.replace(/\.html\.js$/, ".html"))
+		const relativeOutput = npath.join(params.out, newpath)
+		return {in: path.relative, out: relativeOutput}
+	})
+
 	const ourPath = fileURLToPath(import.meta.url)
 	const cliPath = npath.resolve(npath.dirname(ourPath), "../x-page.js")
 
@@ -39,22 +34,5 @@ async function buildWebsite(params: Params) {
 			await logger.log(`${colors.cyan(`html`)} ${page.out}`)
 		})
 	}))
-}
-
-async function findHtmlPages(params: Params) {
-	const paths = await findPaths(
-		params.in,
-		["**/*.html.js"],
-		params.exclude,
-	)
-
-	return paths
-		.map(path => {
-			const dir = npath.dirname(path.partial)
-			const name = npath.basename(path.partial)
-			const newpath = npath.join(dir, name.replace(/\.html\.js$/, ".html"))
-			const relativeOutput = npath.join(params.out, newpath)
-			return {in: path.relative, out: relativeOutput}
-		})
-}
+})
 

@@ -30,15 +30,19 @@ export function watch(o: {
 
 	const ms = scuteConstants.watchDebounceMs
 
+	const fn = debounce(ms, async() => {
+		if (busy) return undefined
+		busy = true
+		try { await o.fn() }
+		finally { busy = false }
+	})
+
 	const watcher = chokidar.watch(o.dirs, {ignoreInitial: true})
-		.on("all", debounce(ms, async(_event, path: string) => {
-			if (!isAllowed(path))
-				return undefined
-			if (busy) return undefined
-			busy = true
-			try { await o.fn() }
-			finally { busy = false }
-		}))
+		.on("all", (_event, path: string) => {
+			if (isAllowed(path)) {
+				fn()
+			}
+		})
 
 	return () => watcher.close()
 }

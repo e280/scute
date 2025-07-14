@@ -1,26 +1,29 @@
 #!/usr/bin/env node
 
 import {resolve} from "path"
-import {dedupe} from "@e280/stz"
 import {Logger} from "@e280/sten"
+import {debounce} from "@e280/stz"
 import {boolean, cli, command, deathWithDignity, list, param, string} from "@benev/argv"
 
 import {Params} from "./types.js"
-import {scuteExe} from "./steps/exe.js"
-import {scuteCopy} from "./steps/copy.js"
-import {scuteHtml} from "./steps/html.js"
-import {scuteBundle} from "./steps/bundle.js"
+import {watch} from "./utils/watch.js"
+import {exeStep} from "./steps/exe.js"
+import {copyStep} from "./steps/copy.js"
+import {htmlStep} from "./steps/html.js"
+import {bundleStep} from "./steps/bundle.js"
 import {scuteConstants} from "./constants.js"
 
 const {onDeath} = deathWithDignity()
 
 await cli(process.argv, {
 	name: "🐢 scute",
+	readme: "https://github.com/e280/scute",
 	help: `
 		zero-config static site generator
-		- copies files like .css
 		- bundles .bundle.js files with esbuild
+		- copies files like .css
 		- builds .html.js template files
+		- executes .exe.js scripts
 	`,
 	commands: command({
 		args: [],
@@ -28,8 +31,8 @@ await cli(process.argv, {
 			watch: param.flag("w", {help: `watch mode`}),
 			in: param.default(list(string), "s", {help: `dirs to read from`}),
 			out: param.default(string, "x", {help: `output dir`}),
-			copy: param.default(list(string), "**/*.css,**/*.json,**/*.txt", {help: `what files should we copy verbatim?`}),
 			bundle: param.default(boolean, "yes", {help: `should we bundle .bundle.js files?`}),
+			copy: param.default(list(string), "**/*.css,**/*.json,**/*.txt", {help: `what files should we copy verbatim?`}),
 			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),
 			exe: param.default(boolean, "yes", {help: `should we execute .exe.js scripts?`}),
 			exclude: param.optional(list(string), {help: `what files should we ignore?`}),
@@ -44,7 +47,6 @@ await cli(process.argv, {
 
 			const params: Params = {
 				...p,
-				in: dedupe([...p.in, p.out]),
 				logger,
 				exclude: [...scuteConstants.globalExcludes, ...(p.exclude ?? [])],
 			}
@@ -55,31 +57,64 @@ await cli(process.argv, {
 				await logger.log(`${logger.colors.dim("out")}  ${resolve(params.out)}`)
 			}
 
+			async function build() {
+				const start = Date.now()
+
+				if (params.bundle)
+					await bundleStep(params)
+
+				if (params.copy)
+					await copyStep(params)
+
+				if (params.html)
+					await htmlStep(params)
+
+				if (params.exe)
+					await exeStep(params)
+
+				return Math.round(Date.now() - start)
+			}
+
 			// watch mode
 			if (params.watch) {
 				await logger.log(logger.colors.brightGreen(`🐢 scute watch`))
 				await logBasics()
 
-				const watchers = [
-					await scuteBundle.watch(params),
-					await scuteCopy.watch(params),
-					await scuteHtml.watch(params),
-					await scuteExe.watch(params),
-				]
+				let currentlyBuilding = false
+				let count = 0
 
-				onDeath(async() => {
-					await Promise.all(watchers.map(async w => w.stop()))
+				const debouncedBuild = debounce(100, async() => {
+					if (currentlyBuilding) return undefined
+					try {
+						currentlyBuilding = true
+						count++
+						await logger.log()
+						await logger.log(logger.colors.dim(`#${count}`))
+						const time = await build()
+						await logger.log(logger.colors.dim(`time ${time} ms`))
+					}
+					finally {
+						currentlyBuilding = false
+					}
 				})
+
+				const stop = watch({
+					dirs: [...params.in, params.out],
+					exclude: params.exclude,
+					patterns: ["**/*"],
+					fn: debouncedBuild,
+				})
+
+				onDeath(stop)
 			}
 
 			// build mode
 			else {
 				await logger.log(logger.colors.brightGreen(`🐢 scute build`))
 				await logBasics()
-				await scuteBundle.build(params)
-				await scuteCopy.build(params)
-				await scuteHtml.build(params)
-				await scuteExe.build(params)
+				await logger.log()
+				const time = await build()
+				await logger.log(logger.colors.dim(`${time} ms`))
 			}
 		},
 	}),
