@@ -8,6 +8,9 @@
 
 ## v0.0
 
+### v0.0.0-4
+- 🍏 fix `orb.packageJson` and io `readJson` and `writeJson` pathing issue
+
 ### v0.0.0-3
 - 🟥 rename `temple` to `ssg`
 - 🟥 move `exe` to `ssg.exe`

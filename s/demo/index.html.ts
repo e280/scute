@@ -11,7 +11,7 @@ export default ssg.template(import.meta.url, async orb => html`
 			${orb.inject("main.css")}
 		</head>
 		<body>
-			<h1>scute demo</h1>
+			<h1>scute demo ${orb.packageVersion()}</h1>
 
 			<div>
 				<p>/index.js hashurl ${orb.hashurl("/index.js")}</p>

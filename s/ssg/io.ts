@@ -21,13 +21,11 @@ export class Io {
 	}
 
 	async readJson(pathy: string) {
-		const path = this.resolver.path(pathy)
-		return JSON.parse(await this.read(path))
+		return JSON.parse(await this.read(pathy))
 	}
 
 	async writeJson(pathy: string, json: any) {
-		const path = this.resolver.path(pathy)
-		await this.write(path, JSON.stringify(json))
+		await this.write(pathy, JSON.stringify(json))
 	}
 }
 
