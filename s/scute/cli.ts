@@ -6,6 +6,7 @@ import {Logger} from "@e280/sten"
 import {boolean, cli, command, deathWithDignity, list, param, string} from "@benev/argv"
 
 import {Params} from "./types.js"
+import {scuteExe} from "./steps/exe.js"
 import {scuteCopy} from "./steps/copy.js"
 import {scuteHtml} from "./steps/html.js"
 import {scuteBundle} from "./steps/bundle.js"
@@ -30,6 +31,7 @@ await cli(process.argv, {
 			copy: param.default(list(string), "**/*.css,**/*.json,**/*.txt", {help: `what files should we copy verbatim?`}),
 			bundle: param.default(boolean, "yes", {help: `should we bundle .bundle.js files?`}),
 			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),
+			exe: param.default(boolean, "yes", {help: `should we execute .exe.js scripts?`}),
 			exclude: param.optional(list(string), {help: `what files should we ignore?`}),
 			verbose: param.flag("v", {help: `should we log a bunch of crap?`}),
 		},
@@ -62,6 +64,7 @@ await cli(process.argv, {
 					await scuteBundle.watch(params),
 					await scuteCopy.watch(params),
 					await scuteHtml.watch(params),
+					await scuteExe.watch(params),
 				]
 
 				onDeath(async() => {
@@ -76,6 +79,7 @@ await cli(process.argv, {
 				await scuteBundle.build(params)
 				await scuteCopy.build(params)
 				await scuteHtml.build(params)
+				await scuteExe.build(params)
 			}
 		},
 	}),

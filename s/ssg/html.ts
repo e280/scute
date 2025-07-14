@@ -1,5 +1,5 @@
 
-import * as nodePath from "node:path"
+import * as npath from "node:path"
 import {fileURLToPath} from "node:url"
 import {Orb} from "./orb.js"
 
@@ -91,7 +91,7 @@ html.attr = {
 
 html.template = (importMetaUrl: string, fn: RenderFn): TemplateFn => {
 	return (root: string, base: string) => {
-		const local = nodePath.dirname(nodePath.relative(process.cwd(), fileURLToPath(importMetaUrl)))
+		const local = npath.dirname(npath.relative(process.cwd(), fileURLToPath(importMetaUrl)))
 		const orb = new Orb(root, base, local)
 		return fn(orb)
 	}

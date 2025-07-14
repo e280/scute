@@ -8,8 +8,8 @@ import {Params, Step} from "../types.js"
 import {zxErrors} from "../utils/zx-errors.js"
 import {findPaths} from "../utils/find-paths.js"
 
-export const scuteHtml: Step = {
-	build: buildWebsite,
+export const scuteExe: Step = {
+	build: execute,
 
 	watch: async params => {
 		const stop = watch({
@@ -17,7 +17,7 @@ export const scuteHtml: Step = {
 			patterns: ["**/*"],
 			exclude: params.exclude,
 			fn: async() => {
-				try { await buildWebsite(params) }
+				try { await execute(params) }
 				catch (error) {}
 			},
 		})
@@ -25,36 +25,30 @@ export const scuteHtml: Step = {
 	},
 }
 
-async function buildWebsite(params: Params) {
+async function execute(params: Params) {
 	const {logger} = params
 	const {colors} = logger
 
-	const pages = await findHtmlPages(params)
+	const pages = await findExes(params)
 	const ourPath = fileURLToPath(import.meta.url)
-	const cliPath = npath.resolve(npath.dirname(ourPath), "../x-page.js")
+	const cliPath = npath.resolve(npath.dirname(ourPath), "../x-exe.js")
 
 	await Promise.all(pages.map(async page => {
 		await zxErrors(async() => {
-			await $`node ${cliPath} ${params.out} ${page.in} ${page.out}`
-			await logger.log(`${colors.cyan(`html`)} ${page.out}`)
+			await $`node ${cliPath} ${params.out} ${page.in}`
+			await logger.log(`${colors.yellow(`exe `)} ${page.in}`)
 		})
 	}))
 }
 
-async function findHtmlPages(params: Params) {
+async function findExes(params: Params) {
 	const paths = await findPaths(
 		params.in,
-		["**/*.html.js"],
+		["**/*.exe.js"],
 		params.exclude,
 	)
 
 	return paths
-		.map(path => {
-			const dir = npath.dirname(path.partial)
-			const name = npath.basename(path.partial)
-			const newpath = npath.join(dir, name.replace(/\.html\.js$/, ".html"))
-			const relativeOutput = npath.join(params.out, newpath)
-			return {in: path.relative, out: relativeOutput}
-		})
+		.map(path => ({in: path.relative}))
 }
 
