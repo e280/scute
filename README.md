@@ -20,9 +20,10 @@ npm install @e280/scute
 
 #### 🐢 `scute` cli is a zero-config static site generator
 - `scute` command builds your project
-- builds your `.html.ts` modules, generating `.html` files
 - bundles your `.bundle.ts` modules, generating `.bundle.min.js` files
 - copies files like `.css` and `.json` over to your out dir
+- builds your `.html.ts` modules, generating `.html` files
+- executes your `.exe.ts` modules, arbitrary build-time scripts
 
 #### 🐙 `octo` cli is a tiny watch routine multiplexer
 - `octo 'scute -wv' 'tsc -w'` command runs your watch routine
@@ -88,7 +89,7 @@ export default temple.page(import.meta.url, async orb => ({
 }))
 ```
 
-> *did you notice the `orb`? we must'nt speak of the all-powerful orb, yet..*
+> *did you notice the `orb`? we must'nt yet speak of the all-powerful orb..*
 
 ### html
 - import `html`
@@ -210,16 +211,37 @@ export default html.template(import.meta.url, async orb => html`
 
 <br/>
 
+### executable scripts `.exe.ts`
+
+your `.exe.ts` modules will be automatically executed.
+
+you must export a default exe fn like shown here:
+```ts
+import {exe} from "@e280/scute"
+
+export default exe(import.meta.url, async orb => {
+	await orb.io.write("blog.txt", "lol")
+})
+```
+
+this gives you access to an orb, which is useful for resolving paths relative to this module.
+
+these .exe.ts scripts are useful if you want to make a blog where you read hundreds of markdown files and emit a webpage for each, or anything like that.
+
+<br/>
+
 ## 🐢 scute cli — zero-config static site generator
 
 **`scute --help`**
 
 ```
 🐢 scute {params}
+  readme https://github.com/e280/scute
   zero-config static site generator
-  - copies files like .css
   - bundles .bundle.js files with esbuild
+  - copies files like .css
   - builds .html.js template files
+  - executes .exe.js scripts
 
   --watch, -w, flag boolean
     watch mode
@@ -230,14 +252,17 @@ export default html.template(import.meta.url, async orb => html`
   --out, default string x
     output dir
 
-  --copy, default string-list **/*.css,**/*.json,**/*.txt
-    what files should we copy verbatim?
-
   --bundle, default boolean yes
     should we bundle .bundle.js files?
 
+  --copy, default string-list **/*.css,**/*.json,**/*.txt
+    what files should we copy verbatim?
+
   --html, default boolean yes
     should we build .html.js templates?
+
+  --exe, default boolean yes
+    should we execute .exe.js scripts?
 
   --exclude, optional string-list
     what files should we ignore?
