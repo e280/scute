@@ -91,7 +91,7 @@ await cli(process.argv, {
 						await logger.log()
 						await logger.log(logger.colors.dim(`#${count}`))
 						const time = await build()
-						await logger.log(logger.colors.dim(`time ${time} ms`))
+						await logger.log(`${logger.colors.dim(`time`)} ${time} ms`)
 					}
 					finally {
 						currentlyBuilding = false
@@ -114,7 +114,7 @@ await cli(process.argv, {
 				await logBasics()
 				await logger.log()
 				const time = await build()
-				await logger.log(logger.colors.dim(`${time} ms`))
+				await logger.log(`${logger.colors.dim(`time`)} ${time} ms`)
 			}
 		},
 	}),
