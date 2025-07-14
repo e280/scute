@@ -13,10 +13,10 @@ npm install @e280/scute
 
 ### 🐢🐙🪄 three lil buildy bundly buddies
 
-#### 🪄 `html` templating
+#### 🪄 `ssg` html templating
+- `ssg` has some important top-level templating fns
 - `html` for async templating, interleaving async js with your html
 - `orb` does path/url magic and hash-version cache-busting
-- `temple` handles some boilerplate
 
 #### 🐢 `scute` cli is a zero-config static site generator
 - `scute` command builds your project
@@ -51,26 +51,27 @@ npm install @e280/scute
 
 <br/>
 
-## 🪄 `html` templating
+## 🪄 `ssg` and html templating
 
 ### quick homepage `index.html.ts`
 
-`temple.page` is a boilerplate helper for whipping up webpages. it makes an <html> document.
+`ssg.page` is a boilerplate helper for whipping up webpages. it makes an <html> document.
 
 ```ts
-import {temple, html} from "@e280/scute"
+import {ssg, html} from "@e280/scute"
 
-export default temple.page(import.meta.url, async orb => ({
+export default ssg.page(import.meta.url, async orb => ({
   title: "cool website",
 
   // optional
+  js: "main.js", // js module entrypoint
   css: "main.css", // css file injected as <style>
   dark: true, // disable darkreader
   favicon: "/assets/favicon.png",
 
   // content for your <head>
   head: html`
-    <script type="module" src="${orb.hashurl("main.bundle.js")}"></script>
+    <meta name="example" value="whatever"/>
   `,
 
   // opengraph social card (optional)
@@ -90,6 +91,12 @@ export default temple.page(import.meta.url, async orb => ({
 ```
 
 > *did you notice the `orb`? we must'nt yet speak of the all-powerful orb..*
+
+> [!TIP]  
+> scute doesn't care if you're using typescript or not.  
+> if you have `index.html.ts`, scute actually operates on your emitted `index.html.js` file.  
+> for this readme we'll refer to `.ts` source modules, but if you're using plain js, that's fine too.  
+
 
 ### html
 - import `html`
@@ -126,9 +133,9 @@ export default temple.page(import.meta.url, async orb => ({
 
 `partial.ts`
 ```ts
-import {html} from "@e280/scute"
+import {ssg, html} from "@e280/scute"
 
-export const partial = html.template(import.meta.url, async orb => html`
+export const partial = ssg.template(import.meta.url, async orb => html`
   <div>
     <img alt="" src="${orb.url("../images/turtle.avif")}"/>
   </div>
@@ -143,14 +150,15 @@ scute automatically builds html pages with the `.html.ts` or `.html.js` extensio
 
 `page.html.ts`
 ```ts
-import {html} from "@e280/scute"
+import {ssg, html} from "@e280/scute"
 import {partial} from "./partial.js"
 
-export default html.template(import.meta.url, async orb => html`
+export default ssg.template(import.meta.url, async orb => html`
   <!doctype html>
   <html>
     <head>
       <title>scute</title>
+      <script type="module" src="${orb.hashurl("main.bundle.min.js")}"></script>
     </head>
     <body>
       <h1>scute is good</h1>
@@ -211,16 +219,14 @@ export default html.template(import.meta.url, async orb => html`
 
 <br/>
 
-### executable scripts `.exe.ts`
+### `ssg.exe` executable scripts
 
-your `.exe.ts` modules will be automatically executed.
-
-you must export a default exe fn like shown here:
+your `.exe.ts` modules will be automatically executed, and they must provide a default exported exe fn like this:
 ```ts
-import {exe} from "@e280/scute"
+import {ssg} from "@e280/scute"
 
-export default exe(import.meta.url, async orb => {
-	await orb.io.write("blog.txt", "lol")
+export default ssg.exe(import.meta.url, async orb => {
+  await orb.io.write("blog.txt", "lol")
 })
 ```
 
@@ -239,7 +245,7 @@ like, imagine a script like `blog.exe.ts` where you read hundreds of markdown fi
   readme https://github.com/e280/scute
   zero-config static site generator
   - bundles .bundle.js files with esbuild
-  - copies files like .css
+  - copies files like .css and .json
   - builds .html.js template files
   - executes .exe.js scripts
 

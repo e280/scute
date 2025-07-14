@@ -21,7 +21,7 @@ await cli(process.argv, {
 	help: `
 		zero-config static site generator
 		- bundles .bundle.js files with esbuild
-		- copies files like .css
+		- copies files like .css and .json
 		- builds .html.js template files
 		- executes .exe.js scripts
 	`,

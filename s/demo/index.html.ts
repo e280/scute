@@ -1,8 +1,9 @@
 
+import {ssg} from "../ssg/ssg.js"
 import {html} from "../ssg/html.js"
 import {partial} from "./stuff/partial.js"
 
-export default html.template(import.meta.url, async orb => html`
+export default ssg.template(import.meta.url, async orb => html`
 	<html>
 		<head>
 			<script type=module src="${orb.hashurl("main.bundle.js")}"></script>

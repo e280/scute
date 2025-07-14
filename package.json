@@ -37,7 +37,7 @@
 		"globby": "^14.1.0",
 		"minimatch": "^10.0.3",
 		"shell-quote": "^1.8.3",
-		"zx": "^8.7.0"
+		"zx": "^8.7.1"
 	},
 	"devDependencies": {
 		"@e280/science": "^0.0.5",

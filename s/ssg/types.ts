@@ -1,4 +1,7 @@
 
+import {Orb} from "./orb.js"
+import {Html} from "./html.js"
+
 export type FilePath = {
 	relative: string
 	directory: string
@@ -32,4 +35,15 @@ export type SocialCard = {
 export function asSocialCard(card: SocialCard) {
 	return card
 }
+
+export type HtmlOptions = {
+	strings: TemplateStringsArray | string[]
+	values: any[]
+}
+
+export type RenderFn = (orb: Orb) => Promise<Html>
+export type TemplateFn = (root: string, base: string) => Promise<Html>
+
+export type ExeFn = (orb: Orb) => Promise<void>
+export type ExeDefaultFn = (root: string, base: string) => Promise<void>
 

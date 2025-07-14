@@ -1,7 +1,7 @@
 
-import {exe} from "../ssg/exe.js"
+import {ssg} from "../ssg/ssg.js"
 
-export default exe(import.meta.url, async orb => {
+export default ssg.exe(import.meta.url, async orb => {
 	await orb.io.write("blog.txt", "lol")
 })
 

@@ -1,15 +1,5 @@
 
-import * as npath from "node:path"
-import {fileURLToPath} from "node:url"
-import {Orb} from "./orb.js"
-
-export type HtmlOptions = {
-	strings: TemplateStringsArray | string[]
-	values: any[]
-}
-
-export type RenderFn = (orb: Orb) => Promise<Html>
-export type TemplateFn = (root: string, base: string) => Promise<Html>
+import {HtmlOptions} from "./types.js"
 
 export class Html {
 	static html = html
@@ -87,13 +77,5 @@ html.attr = {
 			? html`${attr}="${value}"`
 			: ""
 	),
-}
-
-html.template = (importMetaUrl: string, fn: RenderFn): TemplateFn => {
-	return (root: string, base: string) => {
-		const local = npath.dirname(npath.relative(process.cwd(), fileURLToPath(importMetaUrl)))
-		const orb = new Orb(root, base, local)
-		return fn(orb)
-	}
 }
 
