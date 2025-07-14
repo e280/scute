@@ -226,7 +226,7 @@ export default exe(import.meta.url, async orb => {
 
 this gives you access to an orb, which is useful for resolving paths relative to this module.
 
-these .exe.ts scripts are useful if you want to make a blog where you read hundreds of markdown files and emit a webpage for each, or anything like that.
+like, imagine a script like `blog.exe.ts` where you read hundreds of markdown files and emit a webpage for each, or anything like that.
 
 <br/>
 
