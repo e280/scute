@@ -31,6 +31,9 @@ export const bundleStep = step(async params => {
 			bundle: true,
 			minify: true,
 			sourcemap: true,
+			format: "esm",
+			target: "es2023",
+			platform: "browser",
 		})
 		await logger.log(`${logger.colors.yellow(`bund`)} ${bundle.out}`)
 	}))

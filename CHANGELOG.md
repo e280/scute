@@ -8,6 +8,17 @@
 
 ## v0.0
 
+### v0.0.0-6
+- 🍏 add these options to the esbuild bundles
+  ```json
+	format: "esm",
+	target: "es2023",
+	platform: "browser",
+	```
+
+### v0.0.0-5
+- 🍏 update dependencies
+
 ### v0.0.0-4
 - 🍏 fix `orb.packageJson` and io `readJson` and `writeJson` pathing issue
 
