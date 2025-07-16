@@ -8,7 +8,7 @@
 scute is little static site generator and build tool for websites and web apps.
 
 ```sh
-npm install @e280/scute
+npm install --save-dev @e280/scute
 ```
 
 ### 🐢🐙🪄 three lil buildy bundly buddies
