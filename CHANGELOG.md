@@ -8,6 +8,10 @@
 
 ## v0.0
 
+### v0.0.0-7
+- 🍏 update dependencies
+- 🍏 formalize package exports
+
 ### v0.0.0-6
 - 🍏 add these options to the esbuild bundles
   ```json
