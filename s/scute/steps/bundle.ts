@@ -27,7 +27,10 @@ export const bundleStep = step(async params => {
 	await Promise.all(bundles.map(async bundle => {
 		await esbuild.build({
 			entryPoints: [bundle.in],
-			outfile: bundle.out,
+			outbase: dirname(bundle.in),
+			outdir: dirname(bundle.out),
+			entryNames: "[name].min",
+			splitting: true,
 			bundle: true,
 			minify: true,
 			sourcemap: true,
