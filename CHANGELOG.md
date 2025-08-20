@@ -8,6 +8,9 @@
 
 ## v0.0
 
+### v0.0.0
+- 🍏 updated dependencies
+
 ### v0.0.0-8
 - 🍏 enable esbuild code splitting for dynamic imports
 
