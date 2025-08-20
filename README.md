@@ -62,19 +62,15 @@ import {ssg, html} from "@e280/scute"
 
 export default ssg.page(import.meta.url, async orb => ({
   title: "cool website",
-
-  // optional
-  js: "main.bundle.min.js", // js module entrypoint
-  css: "main.css", // css file injected as <style>
-  dark: true, // disable darkreader
+  js: "main.bundle.min.js",
+  css: "main.css",
+  dark: true,
   favicon: "/assets/favicon.png",
 
-  // content for your <head>
   head: html`
     <meta name="example" value="whatever"/>
   `,
 
-  // opengraph social card (optional)
   socialCard: {
     themeColor: "#8FCC8F",
     title: "scute",
@@ -83,7 +79,6 @@ export default ssg.page(import.meta.url, async orb => ({
     image: `https://e280.org/assets/e.png`,
   },
 
-  // content for your <body>
   body: html`
     <h1>incredi website</h1>
   `,
