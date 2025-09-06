@@ -5,3 +5,23 @@
 	box-sizing: border-box;
 }
 
+html {
+	color: #7f7;
+	background: #111;
+	font-family: monospace;
+}
+
+body {
+	max-width: 50em;
+	margin: auto;
+	padding: 2em;
+
+	> * + * {
+		margin-top: 1em;
+	}
+
+	code {
+		color: yellow;
+	}
+}
+

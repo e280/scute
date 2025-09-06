@@ -25,7 +25,7 @@
 		"_links": "ln -s \"$(realpath assets)\" x/assets && ln -s \"$(realpath node_modules)\" x/node_modules",
 		"_tsc": "tsc",
 		"_tscw": "tsc -w",
-		"start": "exit 0",
+		"start": "run-s watch",
 		"test": "node x/tests.test.js",
 		"test-watch": "node --watch x/tests.test.js",
 		"test-inspect": "node --inspect x/tests.test.js"
