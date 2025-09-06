@@ -16,7 +16,7 @@ export class Resolver {
 	) {}
 
 	/**
-	 * resolve a url for the web browser
+	 * resolve a CLIENTSIDE url for the web browser
 	 *  - paths starting with "/" is relative to the root dir like x/
 	 *  - paths starting with "$/" is relative to the shell current working directory
 	 *  - all other paths are relative to this local .html.js file
@@ -38,7 +38,7 @@ export class Resolver {
 	}
 
 	/**
-	 * resolve a file path for the serverside
+	 * resolve a SERVERSIDE file path
 	 *  - paths starting with "/" is relative to the root dir like x/
 	 *  - paths starting with "$/" is relative to the shell current working directory
 	 *  - all other paths are relative to this local .html.js file

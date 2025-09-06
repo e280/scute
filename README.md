@@ -183,11 +183,11 @@ export default ssg.template(import.meta.url, async orb => html`
 - `"$/main.css"` — relative to the build process *current working directory*
 
 #### orb pathing functions
-- **`orb.url("main.css")`**  
+- **`orb.url("main.css")`** — *for clientside browser urls!*  
   this *outputs* a browser url relative to the *page* (not partial).  
   don't get confused here! the *input* is relative following the magic conventions. the *output* is page-relative.  
   eg, you can use these urls as `<script>` `src` and such.  
-- **`orb.path("main.css")`**  
+- **`orb.path("main.css")`** — *for serverside filesystem paths!*  
   this *outputs* a filesystem path relative to the *current working directory.*  
   eg, you can use these paths in node `readFile` calls and such.  
 - **`orb.hashurl("main.css")` — 🧙‍♂️ ***important!*****  
