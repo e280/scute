@@ -27,7 +27,7 @@ await cli(process.argv, {
 				each command gets its own pane that you can flip between.
 
 				for example,
-					$ octo "scute -wv" "tsc -w"
+					$ octo "scute -vw" "tsc -w"
 
 				this will give you two panes,
 					- press 1 to see the scute output
@@ -38,8 +38,8 @@ await cli(process.argv, {
 					- press q or ctrl+c to quit
 
 				local npm bin is available,
-					$ scute -wv      # GOOD this works
-					$ npx scute -wv  # BAD npx is unnecessary
+					$ scute -vw      # GOOD this works
+					$ npx scute -vw  # BAD npx is unnecessary
 			`,
 		},
 		async execute({extraArgs}) {
