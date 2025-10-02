@@ -10,6 +10,9 @@
 
 ## v0.1
 
+### v0.1.1
+- 🍏 updated dependencies
+
 ### v0.1.0
 - 🍏 improve readme
 - 🍏 updated dependencies
