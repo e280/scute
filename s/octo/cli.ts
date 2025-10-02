@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import {parse} from "shell-quote"
-import {debounce, defer, loop} from "@e280/stz"
+import {debounce, defer, count} from "@e280/stz"
 import {colorful as colors, Logger} from "@e280/sten"
 import {cli, command, deathWithDignity} from "@benev/argv"
 
@@ -70,12 +70,12 @@ await cli(process.argv, {
 				const pane = getActivePane()
 
 				console.clear()
-				for (const _ of loop(process.stdout.rows))
+				for (const _ of count(process.stdout.rows))
 					await logger.log("")
 
 				await logger.log(pane.content.join(""))
 
-				const nav = [...loop(panes.length)].map(index => {
+				const nav = [...count(panes.length)].map(index => {
 					return active === index
 						? colors.brightCyan(`[${index + 1}]`)
 						: colors.blue(` ${index + 1} `)
