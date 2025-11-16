@@ -19,6 +19,7 @@
 	},
 	"scripts": {
 		"build": "run-s _clean _links _tsc _scute",
+		"help": "node ./x/scute/cli.js --help",
 		"watch": "npm run build -s && node ./x/octo/cli.js 'node ./x/scute/cli.js -wv' 'npm run test-watch' 'npm run _tscw' 'http-server x'",
 		"_scute": "node ./x/scute/cli.js -v",
 		"_clean": "rm -rf x && mkdir x",
