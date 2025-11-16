@@ -10,6 +10,10 @@
 
 ## v0.1
 
+### v0.1.2
+- 🍏 add `--debounce` param to watch routine
+- 🍏 updated dependencies
+
 ### v0.1.1
 - 🍏 updated dependencies
 
