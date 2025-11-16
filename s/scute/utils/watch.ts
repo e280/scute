@@ -3,9 +3,9 @@ import braces from "braces"
 import chokidar from "chokidar"
 import {debounce} from "@e280/stz"
 import {minimatch} from "minimatch"
-import {scuteConstants} from "../constants.js"
 
 export function watch(o: {
+		debounce: number
 		dirs: string[]
 		patterns: string[]
 		exclude: string[]
@@ -28,9 +28,7 @@ export function watch(o: {
 		return isMatching && !isExcluded
 	}
 
-	const ms = scuteConstants.watchDebounceMs
-
-	const fn = debounce(ms, async() => {
+	const fn = debounce(o.debounce, async() => {
 		if (busy) return undefined
 		busy = true
 		try { await o.fn() }

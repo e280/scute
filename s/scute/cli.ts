@@ -2,8 +2,7 @@
 
 import {resolve} from "path"
 import {Logger} from "@e280/sten"
-import {debounce} from "@e280/stz"
-import {boolean, cli, command, deathWithDignity, list, param, string} from "@benev/argv"
+import {boolean, cli, command, deathWithDignity, list, number, param, string} from "@benev/argv"
 
 import {Params} from "./types.js"
 import {watch} from "./utils/watch.js"
@@ -35,6 +34,7 @@ await cli(process.argv, {
 			copy: param.default(list(string), "**/*.css,**/*.json,**/*.txt", {help: `what files should we copy verbatim?`}),
 			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),
 			exe: param.default(boolean, "yes", {help: `should we execute .exe.js scripts?`}),
+			debounce: param.default(number, "200", {help: `milliseconds to wait before watch routine build`}),
 			exclude: param.optional(list(string), {help: `what files should we ignore?`}),
 			verbose: param.flag("v", {help: `should we log a bunch of crap?`}),
 		},
@@ -80,29 +80,20 @@ await cli(process.argv, {
 				await logger.log(logger.colors.brightGreen(`🐢 scute watch`))
 				await logBasics()
 
-				let currentlyBuilding = false
 				let count = 0
 
-				const debouncedBuild = debounce(100, async() => {
-					if (currentlyBuilding) return undefined
-					try {
-						currentlyBuilding = true
+				const stop = watch({
+					debounce: params.debounce,
+					dirs: [...params.in, params.out],
+					exclude: params.exclude,
+					patterns: ["**/*"],
+					fn: async() => {
 						count++
 						await logger.log()
 						await logger.log(logger.colors.dim(`#${count}`))
 						const time = await build()
 						await logger.log(`${logger.colors.dim(`time`)} ${time} ms`)
-					}
-					finally {
-						currentlyBuilding = false
-					}
-				})
-
-				const stop = watch({
-					dirs: [...params.in, params.out],
-					exclude: params.exclude,
-					patterns: ["**/*"],
-					fn: debouncedBuild,
+					},
 				})
 
 				onDeath(stop)

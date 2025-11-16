@@ -9,6 +9,7 @@ export type Params = {
 	bundle: boolean
 	html: boolean
 	exe: boolean
+	debounce: number
 	exclude: string[]
 	verbose: boolean
 	logger: Logger
