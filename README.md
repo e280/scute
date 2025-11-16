@@ -77,7 +77,7 @@ npm install --save-dev @e280/scute
       --exe, default boolean yes
         should we execute .exe.js scripts?
 
-      --debounce, default number 200
+      --debounce, default number 100
         milliseconds to wait before watch routine build
 
       --exclude, optional string-list

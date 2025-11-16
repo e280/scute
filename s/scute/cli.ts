@@ -34,7 +34,7 @@ await cli(process.argv, {
 			copy: param.default(list(string), "**/*.css,**/*.json,**/*.txt", {help: `what files should we copy verbatim?`}),
 			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),
 			exe: param.default(boolean, "yes", {help: `should we execute .exe.js scripts?`}),
-			debounce: param.default(number, "200", {help: `milliseconds to wait before watch routine build`}),
+			debounce: param.default(number, "100", {help: `milliseconds to wait before watch routine build`}),
 			exclude: param.optional(list(string), {help: `what files should we ignore?`}),
 			verbose: param.flag("v", {help: `should we log a bunch of crap?`}),
 		},
