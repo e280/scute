@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@benev/argv": "^0.3.14",
 		"@e280/sten": "^0.1.1",
-		"@e280/stz": "^0.2.19",
+		"@e280/stz": "^0.2.21",
 		"braces": "^3.0.3",
 		"chokidar": "^5.0.0",
 		"esbuild": "^0.27.3",
@@ -37,7 +37,7 @@
 		"zx": "^8.8.5"
 	},
 	"devDependencies": {
-		"@e280/science": "^0.1.7",
+		"@e280/science": "^0.1.8",
 		"@types/braces": "^3.0.5",
 		"@types/node": "^25.3.0",
 		"@types/shell-quote": "^1.7.5",
