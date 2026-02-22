@@ -10,6 +10,15 @@
 
 ## v0.1
 
+### v0.1.3
+- 🍏 added new `emojiFavicon` snippet which produces a favicon link out of the provided emoji
+- 🍏 uprooted all 'ssg' exports, eg,
+  - `ssg.template` is now also exported as just `template`, same with `page`, `exe`, etc
+  - same with all metas like `ssg.meta.viewport` is now available as `viewport`, etc
+- 🍏 rework readme
+  - `page` helper is no longer recommended, i find i just don't like it anymore
+- 🍏 updated dependencies
+
 ### v0.1.2
 - 🍏 add `--debounce` param to watch routine
 - 🍏 updated dependencies
