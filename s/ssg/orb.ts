@@ -2,7 +2,7 @@
 import {createHash} from "node:crypto"
 
 import {Io} from "./io.js"
-import {html} from "./html.js"
+import {html} from "./html-fn.js"
 import {TemplateFn} from "./types.js"
 import {Resolver} from "./tools/resolver.js"
 import {parseUrl} from "./tools/parse-url.js"

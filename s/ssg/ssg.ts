@@ -3,7 +3,8 @@ import * as npath from "node:path"
 import {fileURLToPath} from "node:url"
 
 import {Orb} from "./orb.js"
-import {html, Html} from "./html.js"
+import {Html} from "./html.js"
+import {html} from "./html-fn.js"
 import {ExeDefaultFn, ExeFn, RenderFn, SocialCard, TemplateFn} from "./types.js"
 
 export type TemplePageFn = (o: Orb) => Promise<{

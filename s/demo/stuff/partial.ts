@@ -1,6 +1,6 @@
 
 import {ssg} from "../../ssg/ssg.js"
-import {html} from "../../ssg/html.js"
+import {html} from "../../ssg/html-fn.js"
 
 export const partial = ssg.template(import.meta.url, async orb => html`
 	<p>root ${orb.root}</p>

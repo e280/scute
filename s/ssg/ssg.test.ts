@@ -3,7 +3,8 @@ import {nap} from "@e280/stz"
 import {Science, test, expect} from "@e280/science"
 
 import {Orb} from "./orb.js"
-import {Html, html} from "./html.js"
+import {Html} from "./html.js"
+import {html} from "./html-fn.js"
 import {untab} from "./tools/untab.js"
 
 export default Science.suite({
