@@ -11,6 +11,7 @@
 ## v0.1
 
 ### v0.1.3
+- 🍏 only write out templating results when genuine changes are detected (cuts down on mtime noise)
 - 🍏 added new `emojiFavicon` snippet which produces a favicon link out of the provided emoji
 - 🍏 uprooted all 'ssg' exports, eg,
   - `ssg.template` is now also exported as just `template`, same with `page`, `exe`, etc
