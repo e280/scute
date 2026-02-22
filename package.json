@@ -18,38 +18,29 @@
 		"octo": "./x/octo/cli.js"
 	},
 	"scripts": {
-		"build": "run-s _clean _links _tsc _scute",
+		"build": "rm -rf x && mkdir x && ln -s '$(realpath assets)' x/assets && ln -s '$(realpath node_modules)' x/node_modules && tsc",
 		"help": "node ./x/scute/cli.js --help",
-		"watch": "npm run build -s && node ./x/octo/cli.js 'node ./x/scute/cli.js -wv' 'npm run test-watch' 'npm run _tscw' 'http-server x'",
-		"_scute": "node ./x/scute/cli.js -v",
-		"_clean": "rm -rf x && mkdir x",
-		"_links": "ln -s \"$(realpath assets)\" x/assets && ln -s \"$(realpath node_modules)\" x/node_modules",
-		"_tsc": "tsc",
-		"_tscw": "tsc -w",
-		"start": "run-s watch",
-		"test": "node x/tests.test.js",
-		"test-watch": "node --watch x/tests.test.js",
-		"test-inspect": "node --inspect x/tests.test.js"
+		"dev": "node --watch x/tests.test.js & tsc -w & http-server x & wait",
+		"test": "node x/tests.test.js"
 	},
 	"dependencies": {
-		"@benev/argv": "^0.3.12",
-		"@e280/sten": "^0.0.0-6",
-		"@e280/stz": "^0.2.14",
+		"@benev/argv": "^0.3.14",
+		"@e280/sten": "^0.1.1",
+		"@e280/stz": "^0.2.19",
 		"braces": "^3.0.3",
-		"chokidar": "^4.0.3",
-		"esbuild": "^0.27.0",
-		"globby": "^16.0.0",
-		"minimatch": "^10.1.1",
+		"chokidar": "^5.0.0",
+		"esbuild": "^0.27.3",
+		"globby": "^16.1.1",
+		"minimatch": "^10.2.2",
 		"shell-quote": "^1.8.3",
 		"zx": "^8.8.5"
 	},
 	"devDependencies": {
-		"@e280/science": "^0.1.4",
+		"@e280/science": "^0.1.7",
 		"@types/braces": "^3.0.5",
-		"@types/node": "^24.10.1",
+		"@types/node": "^25.3.0",
 		"@types/shell-quote": "^1.7.5",
 		"http-server": "^14.1.1",
-		"npm-run-all": "^4.1.5",
 		"typescript": "^5.9.3"
 	},
 	"keywords": [
