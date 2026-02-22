@@ -2,10 +2,10 @@
 
 import npath from "node:path"
 import {pathToFileURL} from "node:url"
-import {writeFile} from "node:fs/promises"
 
 import {TemplateFn} from "../ssg/types.js"
 import {untab} from "../ssg/tools/untab.js"
+import {writeIfDifferent} from "../ssg/tools/write-if-different.js"
 
 const [_a, _b, root, inpath, outpath] = process.argv
 
@@ -18,5 +18,5 @@ if (!pageSetup)
 const template = await pageSetup(root, npath.dirname(inpath))
 const result = await template.render()
 const final = untab(result).trim() + "\n"
-await writeFile(outpath, final, "utf-8")
+await writeIfDifferent(outpath, final)
 
