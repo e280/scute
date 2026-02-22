@@ -1,6 +1,6 @@
 
 import {readFile, writeFile} from "node:fs/promises"
-import {hash} from "../../scute/utils/hash.js"
+import {hash} from "./hash.js"
 
 export async function writeIfDifferent(filepath: string, payload: string) {
 	const payloadHash = await hash(payload)
