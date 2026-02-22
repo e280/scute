@@ -10,6 +10,9 @@
 
 ## v0.1
 
+### v0.1.4
+- 🍏 update dependencies
+
 ### v0.1.3
 - 🔶 deprecated 'ssg', and uprooted all its exports, eg,
   - `ssg.template` is now also exported as just `template`, same with `page`, `exe`, etc
