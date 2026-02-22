@@ -7,6 +7,8 @@ export const viewport = () => html`<meta name="viewport" content="width=device-w
 export const darkreaderDisable = () => html`<meta name="darkreader-lock"/>`
 export const favicon = (href: string) => html`<link rel="icon" href="${href}"/>`
 
+export const emojiFavicon = (emoji: string) => html`<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>${emoji}</text></svg>">`
+
 /** open graph protocol social card, of type "website", see https://ogp.me/ */
 export const socialCard = (card: SocialCard) => html`
 	<meta name="theme-color" content="${card.themeColor}">
