@@ -32,14 +32,14 @@ export function watch(o: {
 		if (busy) return undefined
 		busy = true
 		try { await o.fn() }
+		catch (err) { console.error("[scute] error", err) }
 		finally { busy = false }
 	})
 
 	const watcher = chokidar.watch(o.dirs, {ignoreInitial: true})
 		.on("all", (_event, path: string) => {
-			if (isAllowed(path)) {
-				fn()
-			}
+			if (isAllowed(path))
+				void fn()
 		})
 
 	return () => watcher.close()
