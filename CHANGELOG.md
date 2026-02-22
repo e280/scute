@@ -11,13 +11,13 @@
 ## v0.1
 
 ### v0.1.3
-- 🍏 only write out templating results when genuine changes are detected (cuts down on mtime noise)
-- 🍏 added new `emojiFavicon` snippet which produces a favicon link out of the provided emoji
-- 🍏 uprooted all 'ssg' exports, eg,
+- 🔶 deprecated 'ssg', and uprooted all its exports, eg,
   - `ssg.template` is now also exported as just `template`, same with `page`, `exe`, etc
   - same with all metas like `ssg.meta.viewport` is now available as `viewport`, etc
+- 🔶 deprecated `page` helper, prefer to just let people write their own html doc
+- 🍏 added new `emojiSvg` snippet which produces a data svg out of the provided emoji -- great for insta-favicons!
+- 🍏 only write out templating results when genuine changes are detected (cuts down on mtime noise)
 - 🍏 rework readme
-  - `page` helper is no longer recommended, i find i just don't like it anymore
 - 🍏 updated dependencies
 
 ### v0.1.2

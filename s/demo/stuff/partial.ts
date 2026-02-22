@@ -1,8 +1,8 @@
 
-import {ssg} from "../../ssg/ssg.js"
 import {html} from "../../ssg/html-fn.js"
+import {template} from "../../ssg/template.js"
 
-export const partial = ssg.template(import.meta.url, async orb => html`
+export const partial = template(import.meta.url, async orb => html`
 	<p>root ${orb.root}</p>
 	<p>base ${orb.base}</p>
 	<p>local ${orb.local}</p>

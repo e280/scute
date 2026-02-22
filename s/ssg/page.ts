@@ -4,7 +4,7 @@ import {Html} from "./html.js"
 import {html} from "./html-fn.js"
 import {SocialCard} from "./types.js"
 import {template} from "./template.js"
-import { darkreaderDisable, favicon, socialCard, utf8, viewport } from "./snippets.js"
+import {darkreaderDisable, favicon, socialCard, utf8, viewport} from "./snippets.js"
 
 export type TemplePageFn = (o: Orb) => Promise<{
 	title: string
@@ -17,6 +17,7 @@ export type TemplePageFn = (o: Orb) => Promise<{
 	socialCard?: SocialCard
 }>
 
+/** @deprecated we now discourage use of this helper, better to just write a full html document yourself */
 export function page(importMetaUrl: string, fn: TemplePageFn) {
 	return template(importMetaUrl, async orb => {
 		const options = await fn(orb)

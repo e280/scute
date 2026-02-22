@@ -28,7 +28,7 @@ npm install --save-dev @e280/scute
 - scute will auto-build modules with `.html.ts` or `.html.js` extension and a template default export
 - let's make your `index.html.ts`
     ```ts
-    import {template, html, emojiFavicon, socialCard} from "@e280/scute"
+    import {template, html, emojiSvg, socialCard} from "@e280/scute"
 
     export default template(import.meta.url, async orb => html`
       <!doctype html>
@@ -42,7 +42,7 @@ npm install --save-dev @e280/scute
           <link rel="stylesheet" href="${orb.hashurl("main.css")}"/>
           <script type="module" src="${orb.hashurl("main.bundle.min.js")}"></script>
 
-          ${emojiFavicon("🐢")}
+          <link rel="icon" href="${emojiSvg("🐢")}"/>
           ${socialCard({
             themeColor: "#8FCC8F",
             title: "scute",
