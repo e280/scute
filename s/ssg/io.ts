@@ -1,11 +1,11 @@
 
 import {$} from "zx"
 import {dirname} from "node:path"
-import {readFile} from "node:fs/promises"
+import {readFile, writeFile} from "node:fs/promises"
 
 import {Html} from "./html.js"
 import {Resolver} from "./tools/resolver.js"
-import {writeIfDifferent} from "./tools/write-if-different.js"
+import {detectChange} from "./tools/hash.js"
 
 export class Io {
 	constructor(public resolver: Resolver) {}
@@ -16,9 +16,14 @@ export class Io {
 	}
 
 	async write(pathy: string, text: string | Html) {
+		const payload = text.toString()
 		const path = this.resolver.path(pathy)
 		await $`mkdir -p "${dirname(path)}"`
-		await writeIfDifferent(path, text.toString())
+		if (await detectChange(path, payload)) {
+			await writeFile(path, payload, "utf8")
+			return true
+		}
+		return false
 	}
 
 	async readJson(pathy: string) {

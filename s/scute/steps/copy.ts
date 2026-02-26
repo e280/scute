@@ -5,6 +5,8 @@ import {dirname, join, resolve} from "path"
 
 import {Params, step} from "../types.js"
 import {findPaths} from "../utils/find-paths.js"
+import { detectChange } from "../../ssg/tools/hash.js"
+import { readFile } from "fs/promises"
 
 export const copyStep = step(async params => {
 	const {logger} = params
@@ -36,7 +38,13 @@ async function copy(logger: Logger, ops: {in: string, out: string}[]) {
 async function copyWithParents(logger: Logger, op: {in: string, out: string}) {
 	const dir = dirname(op.out)
 	await fs.mkdir(dir, {recursive: true})
-	await fs.cp(op.in, op.out, {recursive: false})
-	await logger.log(`${logger.colors.blue(`copy`)} ${op.out}`)
+
+	if (await detectChange(op.out, await readFile(op.in))) {
+		await fs.cp(op.in, op.out, {recursive: false})
+		await logger.log(`${logger.colors.blue(`copy`)} ${op.out}`)
+	}
+	else {
+		await logger.log(`${logger.colors.dim(logger.colors.blue(`copy`))} ${op.out}`)
+	}
 }
 
