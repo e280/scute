@@ -1,12 +1,12 @@
 
 import {Logger} from "@e280/sten"
-import {promises as fs} from "fs"
-import {dirname, join, resolve} from "path"
+import {promises as fs} from "node:fs"
+import {readFile} from "node:fs/promises"
+import {dirname, join, resolve} from "node:path"
 
 import {Params, step} from "../types.js"
 import {findPaths} from "../utils/find-paths.js"
-import { detectChange } from "../../ssg/tools/hash.js"
-import { readFile } from "fs/promises"
+import {detectChange} from "../../ssg/tools/hash.js"
 
 export const copyStep = step(async params => {
 	const {logger} = params

@@ -1,6 +1,6 @@
 
 import * as esbuild from "esbuild"
-import {basename, dirname, join} from "path"
+import {basename, dirname, join} from "node:path"
 
 import {step} from "../types.js"
 import {findPaths} from "../utils/find-paths.js"
