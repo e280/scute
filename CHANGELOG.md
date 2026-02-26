@@ -10,6 +10,10 @@
 
 ## v0.1
 
+### v0.1.5
+- 🍏 scute now avoids unnecessary writes whenever possible (checking file hashes)
+- 🍏 update dependencies
+
 ### v0.1.4
 - 🍏 update dependencies
 
