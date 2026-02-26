@@ -196,7 +196,7 @@ npm install --save-dev @e280/scute
         watch mode
 
       --in, default string-list s
-        dirs to read from
+        dirs to read from (; separated)
 
       --out, default string x
         output dir
@@ -204,8 +204,8 @@ npm install --save-dev @e280/scute
       --bundle, default boolean yes
         should we bundle .bundle.js files?
 
-      --copy, default string-list **/*.css,**/*.json,**/*.txt
-        what files should we copy verbatim?
+      --copy, default string-list **/*.{css,json,txt,xml,csv,wasm,webmanifest,png,svg,webp,avif,jpg,jpeg,ico,webm,ogg,mp4,m4a,woff,woff2,ttf,otf}
+        what files should we copy verbatim? (; separated globs)
 
       --html, default boolean yes
         should we build .html.js templates?
@@ -217,7 +217,7 @@ npm install --save-dev @e280/scute
         milliseconds to wait before watch routine build
 
       --exclude, optional string-list
-        what files should we ignore?
+        what files should we ignore? (; separated globs)
 
       --verbose, -v, flag boolean
         should we log a bunch of crap?

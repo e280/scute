@@ -8,6 +8,16 @@
 
 <br/><br/>
 
+## v0.2
+
+### v0.2.0
+- 🟥 change cli flags to be semicolon delimited, like --copy, --in, --exclude
+- 🍏 more extensive default --copy files
+
+
+
+<br/><br/>
+
 ## v0.1
 
 ### v0.1.5
