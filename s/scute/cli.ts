@@ -29,14 +29,14 @@ await cli(process.argv, {
 		args: [],
 		params: {
 			watch: param.flag("w", {help: `watch mode`}),
-			in: param.default(list(string, ";"), "s", {help: `dirs to read from (; separated)`}),
+			in: param.default(list(string, ","), "s", {help: `dirs to read from. comma separated.`}),
 			out: param.default(string, "x", {help: `output dir`}),
 			bundle: param.default(boolean, "yes", {help: `should we bundle .bundle.js files?`}),
-			copy: param.default(list(string, ";"), `**/*.{${copyableExtensions.join(",")}}`, {help: `what files should we copy verbatim? (; separated globs)`}),
+			copy: param.default(list(string, ";"), `**/*.{${copyableExtensions.join(",")}}`, {help: `what files should we copy verbatim? semicolon separated globs.`}),
 			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),
 			exe: param.default(boolean, "yes", {help: `should we execute .exe.js scripts?`}),
 			debounce: param.default(number, "100", {help: `milliseconds to wait before watch routine build`}),
-			exclude: param.optional(list(string, ";"), {help: `what files should we ignore? (; separated globs)`}),
+			exclude: param.optional(list(string, ";"), {help: `what files should we ignore? semicolon separated globs.`}),
 			verbose: param.flag("v", {help: `should we log a bunch of crap?`}),
 		},
 		async execute({params: p}) {

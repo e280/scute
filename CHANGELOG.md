@@ -11,7 +11,9 @@
 ## v0.2
 
 ### v0.2.0
-- 🟥 change cli flags to be semicolon delimited, like --copy, --in, --exclude
+- 🟥 glob cli flags are now semicolon delimited.
+  - `--copy="**/*.css;**/*.json"`
+  - `--exclude="**/*.css;**/*.json"`
 - 🍏 more extensive default --copy files
 
 
