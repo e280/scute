@@ -10,6 +10,19 @@
 
 ## v0.2
 
+### v0.2.1
+- 🔶 deprecate `emojiSvg` in favor of `dataSvgEmoji` or `svgEmoji`
+    ```ts
+    // old bad
+    html`<link rel="icon" href="${emojiSvg("🗿")}"/>`
+
+    // new good
+    html`<link rel="icon" href="${dataSvgEmoji("🗿")}"/>`
+
+    // new good
+    html`<link rel="icon" href="data:image/svg+xml,${svgEmoji("🗿")}"/>`
+    ```
+
 ### v0.2.0
 - 🟥 glob cli flags are now semicolon delimited.
   - `--copy="**/*.css;**/*.json"`

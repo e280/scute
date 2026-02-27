@@ -7,7 +7,12 @@ export const viewport = () => html`<meta name="viewport" content="width=device-w
 export const darkreaderDisable = () => html`<meta name="darkreader-lock"/>`
 export const favicon = (href: string) => html`<link rel="icon" href="${href}"/>`
 
+/** @deprecated now use `dataSvgEmoji`, or `svgEmoji` */
 export const emojiSvg = (emoji: string) => html`data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>${emoji}</text></svg>`
+
+export const svgEmoji = (emoji: string) => html`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>${emoji}</text></svg>`
+
+export const dataSvgEmoji = (emoji: string) => html`data:image/svg+xml,${svgEmoji(emoji)}`
 
 /** open graph protocol social card, of type "website", see https://ogp.me/ */
 export const socialCard = (card: SocialCard) => html`
