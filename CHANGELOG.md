@@ -10,6 +10,9 @@
 
 ## v0.2
 
+### v0.2.2
+- 🍏 fix readme on templating
+
 ### v0.2.1
 - 🔶 deprecate `emojiSvg` in favor of `dataSvgEmoji` or `svgEmoji`
     ```ts

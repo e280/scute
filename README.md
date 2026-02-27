@@ -20,12 +20,11 @@ npm install --save-dev @e280/scute
 
 ## 🪄 ssg — html templating library
 > *library for static site generation*
-- `template` fn is for 
-- `html` fn is for writing html, and interleaving it with async js
-- `orb` does path/url magic and hash-version cache-busting
 
 ### example homepage
-- scute will auto-build modules with `.html.ts` or `.html.js` extension and a template default export
+- scute will auto-build modules with `.html.ts` or `.html.js` extension and a `template` default export
+- `html` fn is for writing html, and interleaving it with async js
+- `orb` does path/url magic and hash-version cache-busting
 - let's make your `index.html.ts`
     ```ts
     import {template, html, dataSvgEmoji, socialCard} from "@e280/scute"
@@ -57,7 +56,6 @@ npm install --save-dev @e280/scute
       </html>
     `)
     ```
-    > *did you notice the `orb`? we must'nt yet speak of the all-powerful orb..*
 
 ### html tagged template literals
 - basic usage
