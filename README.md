@@ -9,21 +9,21 @@ npm install --save-dev @e280/scute
 ```
 
 **`@e280/scute` contains three lil buddies:**
-- 🪄 [#ssg](#ssg) — html templating library for static site generation
-- 🐢 [#scute](#scute) — eponymous zero-config build cli
+- 🪄 [#html](#html) — html templating library
+- 🐢 [#scute](#scute) — eponymous zero-config build and static site generator cli
 - 🐙 [#octo](#octo) — watch routine terminal multiplexer cli
 
 
 
 <br/></br>
-<a id="ssg"></a>
+<a id="html"></a>
 
-## 🪄 ssg — html templating library
+## 🪄 html templating library
 > *library for static site generation*
 
 ### example homepage
 - scute will auto-build modules with `.html.ts` or `.html.js` extension and a `template` default export
-- `html` fn is for writing html, and interleaving it with async js
+- `html` fn is for writing html. you can seamlessly interlace it with async js
 - `orb` does path/url magic and hash-version cache-busting
 - let's make your `index.html.ts`
     ```ts
@@ -38,10 +38,11 @@ npm install --save-dev @e280/scute
           <meta name="darkreader-lock"/>
           <style>@layer base{html{background:#000}}</style>
 
+          <title>scute</title>
+          <link rel="icon" href="${dataSvgEmoji("🐢")}"/>
           <link rel="stylesheet" href="${orb.hashurl("main.css")}"/>
           <script type="module" src="${orb.hashurl("main.bundle.min.js")}"></script>
 
-          <link rel="icon" href="${dataSvgEmoji("🐢")}"/>
           ${socialCard({
             themeColor: "#8FCC8F",
             title: "scute",
@@ -51,7 +52,8 @@ npm install --save-dev @e280/scute
           })}
         </head>
         <body>
-          <h1>🐢 hello world</h1>
+          <h1>🐢 scute</h1>
+          <p>version ${orb.packageVersion()}</p>
         </body>
       </html>
     `)
