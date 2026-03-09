@@ -8,6 +8,15 @@
 
 <br/><br/>
 
+## v0.3
+
+### v0.3.0
+- 🟥 moved octo to its own package! see https://github.com/e280/octo
+
+
+
+<br/><br/>
+
 ## v0.2
 
 ### v0.2.2

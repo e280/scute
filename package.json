@@ -14,8 +14,7 @@
 		"s"
 	],
 	"bin": {
-		"scute": "./x/scute/cli.js",
-		"octo": "./x/octo/cli.js"
+		"scute": "./x/scute/cli.js"
 	},
 	"scripts": {
 		"build": "rm -rf x && mkdir x && ln -s '$(realpath assets)' x/assets && ln -s '$(realpath node_modules)' x/node_modules && tsc",

@@ -2,16 +2,15 @@
 <div align="center"><img alt="" width="256" src="https://i.imgur.com/Gm7Bj6q.png"/></div>
 
 # 🐢 scute
-> *buildy bundly buddies for websites and web apps*
+> *buildy bundly buddy for websites and web apps*
 
 ```sh
 npm install --save-dev @e280/scute
 ```
 
-**`@e280/scute` contains three lil buddies:**
 - 🪄 [#html](#html) — html templating library
 - 🐢 [#scute](#scute) — eponymous zero-config build and static site generator cli
-- 🐙 [#octo](#octo) — watch routine terminal multiplexer cli
+- 🐙 [@e280/octo](https://github.com/e280/octo) — watch routine terminal multiplexer cli
 
 
 
@@ -22,9 +21,6 @@ npm install --save-dev @e280/scute
 > *library for static site generation*
 
 ### example homepage
-- scute will auto-build modules with `.html.ts` or `.html.js` extension and a `template` default export
-- `html` fn is for writing html. you can seamlessly interlace it with async js
-- `orb` does path/url magic and hash-version cache-busting
 - let's make your `index.html.ts`
     ```ts
     import {template, html, dataSvgEmoji, socialCard} from "@e280/scute"
@@ -46,7 +42,7 @@ npm install --save-dev @e280/scute
           ${socialCard({
             themeColor: "#8FCC8F",
             title: "scute",
-            description: "buildy bundly buddies",
+            description: "buildy bundly buddy",
             siteName: "https://e280.org/",
             image: `https://e280.org/assets/e.png`,
           })}
@@ -58,6 +54,9 @@ npm install --save-dev @e280/scute
       </html>
     `)
     ```
+- scute will auto-build modules with `.html.ts` or `.html.js` extension and a `template` default export
+- `html` fn is for writing html. you can seamlessly interlace it with async js
+- `orb` does path/url magic and hash-version cache-busting
 
 ### html tagged template literals
 - basic usage
@@ -227,48 +226,6 @@ npm install --save-dev @e280/scute
     if you wanna be a normie, do this:
     ```sh
     scute --in="src" --out="dist"
-    ```
-
-
-
-<br/></br>
-<a id="octo"></a>
-
-## 🐙 octo cli
-> *tiny watch routine terminal multiplexer*
-- `octo 'scute -vw' 'tsc -w'` command runs your watch routine
-- each subcommand gets its own pane
-- press `[` and `]` to shimmy between panes, q to quit
-- **`octo --help`**
-    ```
-    🐙 octo ...commands
-      tiny terminal multiplexer for watch routines
-
-      ...commands,
-        each command gets its own pane that you can flip between.
-
-        for example,
-          $ octo "scute -vw" "tsc -w"
-
-        this will give you two panes,
-          - press 1 to see the scute output
-          - press 2 to see the tsc output
-          - press [ or h or j to shimmy left
-          - press ] or l or k to shimmy right
-          - press backspace to clear the pane
-          - press q or ctrl+c to quit
-
-        local npm bin is available,
-          $ scute -vw      # GOOD this works
-          $ npx scute -vw  # BAD npx is unnecessary
-    ```
-- here's a typical 4-pane watch routine with octo
-    ```sh
-    octo \
-      "scute --verbose --watch" \
-      "tsc -w" \
-      "node --watch x/tests.test.ts" \
-      "http-server x"
     ```
 
 
