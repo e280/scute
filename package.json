@@ -26,22 +26,22 @@
 	"dependencies": {
 		"@benev/argv": "^0.3.14",
 		"@e280/sten": "^0.1.1",
-		"@e280/stz": "^0.2.24",
+		"@e280/stz": "^0.2.26",
 		"braces": "^3.0.3",
 		"chokidar": "^5.0.0",
-		"esbuild": "^0.27.3",
-		"globby": "^16.1.1",
-		"minimatch": "^10.2.4",
+		"esbuild": "^0.27.4",
+		"globby": "^16.2.0",
+		"minimatch": "^10.2.5",
 		"shell-quote": "^1.8.3",
 		"zx": "^8.8.5"
 	},
 	"devDependencies": {
 		"@e280/science": "^0.1.8",
 		"@types/braces": "^3.0.5",
-		"@types/node": "^25.3.5",
+		"@types/node": "^25.5.0",
 		"@types/shell-quote": "^1.7.5",
 		"http-server": "^14.1.1",
-		"typescript": "^5.9.3"
+		"typescript": "^6.0.2"
 	},
 	"keywords": [
 		"static site generator",
