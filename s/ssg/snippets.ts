@@ -16,12 +16,12 @@ export const dataSvgEmoji = (emoji: string) => html`data:image/svg+xml,${svgEmoj
 
 /** open graph protocol social card, of type "website", see https://ogp.me/ */
 export const socialCard = (card: SocialCard) => html`
-	<meta name="theme-color" content="${card.themeColor}">
 	<meta property="og:type" content="website">
-	<meta property="og:site_name" content="${card.siteName}">
 	<meta property="og:title" content="${card.title}">
 	<meta property="og:description" content="${card.description}">
-	<meta property="og:image" content="${card.image}">
+	${card.siteName ? html`<meta property="og:site_name" content="${card.siteName}">` : null}
+	${card.themeColor ? html`<meta name="theme-color" content="${card.themeColor}">` : null}
+	${card.image ? html`<meta property="og:image" content="${card.image}">` : null}
 	${card.url ? html`<meta property="og:url" content="${card.url}">` : null}
 `
 

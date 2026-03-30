@@ -12,20 +12,20 @@ export type FilePath = {
 /** open graph protocol social card, of type "website", see https://ogp.me/ */
 export type SocialCard = {
 
-	/** not actually part of the open graph protocol, might be a discord-specific thing */
-	themeColor: string
-
-	/** brand name or domain this content belongs to */
-	siteName: string
-
 	/** primary title */
 	title: string
 
-	/** a one or two sentence description */
+	/** one or two sentence description */
 	description: string
 
+	/** brand name this content belongs to */
+	siteName?: string
+
+	/** hex color code (not actually part of the open graph protocol, might be a discord-specific thing) */
+	themeColor?: string
+
 	/** url to the poster image */
-	image: string
+	image?: string
 
 	/** canonical perma-url to this content */
 	url?: string
