@@ -11,7 +11,7 @@ import {copyStep} from "./steps/copy.js"
 import {htmlStep} from "./steps/html.js"
 import {bundleStep} from "./steps/bundle.js"
 import {scuteConstants} from "./constants.js"
-import { copyableExtensions } from "./utils/copyable-extensions.js"
+import {copyableExtensions} from "./utils/copyable-extensions.js"
 
 const {onDeath} = deathWithDignity()
 
