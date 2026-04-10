@@ -213,6 +213,9 @@ npm install --save-dev @e280/scute
       --exe, default boolean yes
         should we execute .exe.js scripts?
 
+      --splitting, default boolean yes
+        should bundles be split into chunks? (esbuild option)
+
       --debounce, default number 100
         milliseconds to wait before watch routine build
 
