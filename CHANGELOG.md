@@ -10,6 +10,12 @@
 
 ## v0.3
 
+### v0.3.2
+- 🍏 add --splitting option to scute cli, for esbuild
+
+### v0.3.1
+- 🍏 improve socialcard optionals
+
 ### v0.3.0
 - 🟥 moved octo to its own package! see https://github.com/e280/octo
 
