@@ -11,6 +11,7 @@ export type Params = {
 	exe: boolean
 	debounce: number
 	exclude: string[]
+	splitting: boolean
 	verbose: boolean
 	logger: Logger
 }
