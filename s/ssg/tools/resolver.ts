@@ -1,5 +1,5 @@
 
-import npath, {posix as u} from "node:path"
+import {relative, posix, resolve, join} from "node:path"
 import {parseUrl} from "./parse-url.js"
 
 export class Resolver {
@@ -22,9 +22,9 @@ export class Resolver {
 	 *  - all other paths are relative to this local .html.js file
 	 */
 	url = (pathy: string) => {
-		const bridge = (from: string, to: string) => u.normalize(npath.relative(
-			npath.resolve(this.base),
-			npath.resolve(npath.join(from, to)),
+		const bridge = (from: string, to: string) => posix.normalize(relative(
+			resolve(this.base),
+			resolve(join(from, to)),
 		))
 
 		if (pathy.startsWith("/"))
@@ -44,9 +44,9 @@ export class Resolver {
 	 *  - all other paths are relative to this local .html.js file
 	 */
 	path = (pathy: string) => {
-		const bridge = (from: string, to: string) => npath.relative(
+		const bridge = (from: string, to: string) => relative(
 			process.cwd(),
-			npath.resolve(npath.join(from, parseUrl(to).path)),
+			resolve(join(from, parseUrl(to).path)),
 		)
 
 		if (pathy.startsWith("/"))

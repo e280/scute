@@ -1,7 +1,7 @@
 
 import {$} from "zx"
-import npath from "node:path"
 import {fileURLToPath} from "node:url"
+import {basename, dirname, join, resolve} from "node:path"
 
 import {step} from "../types.js"
 import {zxErrors} from "../utils/zx-errors.js"
@@ -18,15 +18,15 @@ export const htmlStep = step(async params => {
 	)
 
 	const pages = paths.map(path => {
-		const dir = npath.dirname(path.partial)
-		const name = npath.basename(path.partial)
-		const newpath = npath.join(dir, name.replace(/\.html\.js$/, ".html"))
-		const relativeOutput = npath.join(params.out, newpath)
+		const dir = dirname(path.partial)
+		const name = basename(path.partial)
+		const newpath = join(dir, name.replace(/\.html\.js$/, ".html"))
+		const relativeOutput = join(params.out, newpath)
 		return {in: path.relative, out: relativeOutput}
 	})
 
 	const ourPath = fileURLToPath(import.meta.url)
-	const cliPath = npath.resolve(npath.dirname(ourPath), "../x-page.js")
+	const cliPath = resolve(dirname(ourPath), "../x-page.js")
 
 	await Promise.all(pages.map(async page => {
 		await zxErrors(async() => {

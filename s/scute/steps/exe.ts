@@ -1,7 +1,7 @@
 
 import {$} from "zx"
-import npath from "node:path"
 import {fileURLToPath} from "node:url"
+import {dirname, resolve} from "node:path"
 
 import {step} from "../types.js"
 import {zxErrors} from "../utils/zx-errors.js"
@@ -20,7 +20,7 @@ export const exeStep = step(async params => {
 	const pages = paths.map(path => ({in: path.relative}))
 
 	const ourPath = fileURLToPath(import.meta.url)
-	const cliPath = npath.resolve(npath.dirname(ourPath), "../x-exe.js")
+	const cliPath = resolve(dirname(ourPath), "../x-exe.js")
 
 	await Promise.all(pages.map(async page => {
 		await zxErrors(async() => {
