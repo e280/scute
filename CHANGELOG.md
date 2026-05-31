@@ -8,6 +8,18 @@
 
 <br/><br/>
 
+## v0.4
+
+### v0.4.0
+- 🟥 reworked orb/resolver pathing
+  - 🟥 orb/resolver now has `root`, `dest`, and `mod` paths
+  - 🟥 orb/resolver `url` and `hashurl` methods now accept optional `rooted` boolean
+  - 🍏 added "@/path/from/dest" pathy form
+
+
+
+<br/><br/>
+
 ## v0.3
 
 ### v0.3.2

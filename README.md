@@ -142,6 +142,7 @@ npm install --save-dev @e280/scute
 - `"main.css"` — relative to the *current template module*
 - `"./main.css"` — relative to the *current template module* (same as above)
 - `"/main.css"` — relative to the *server root* (aka, your scute --out dir, maybe `x/`)
+- `"@/main.css"` — relative to the output destination file (aka, the emitted .html file)
 - `"$/main.css"` — relative to the build process *current working directory*
 
 #### more orb fns
