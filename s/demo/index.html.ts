@@ -15,17 +15,35 @@ export default template(import.meta.url, async orb => html`
 			<h2>path tests</h2>
 			<div>
 				<p>
-					<strong>/index.js</strong>
+					<strong>path /index.js</strong>
 					<code>${orb.path("/index.js")}</code>
 				</p>
+
 				<p>
-					<strong>/index.js (hashurl)</strong>
+					<strong>url /index.js</strong>
+					<code>${orb.url("/index.js")}</code>
+				</p>
+
+				<p>
+					<strong>hashurl /index.js</strong>
 					<code>${orb.hashurl("/index.js")}</code>
 				</p>
+
+				<p>
+					<strong>url unrooted @/../scute/types.js</strong>
+					<code>${orb.url("@/scute/types.js")}</code>
+				</p>
+
+				<p>
+					<strong>url rooted @/../scute/types.js</strong>
+					<code>${orb.url("@/scute/types.js", true)}</code>
+				</p>
+
 				<p>
 					<strong>../scute/types.js</strong>
 					<code>${orb.path("../scute/types.js")}</code>
 				</p>
+
 				<p>
 					<strong>$/x/scute/types.js</strong>
 					<code>${orb.path("$/x/scute/types.js")}</code>

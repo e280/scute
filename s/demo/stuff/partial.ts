@@ -3,10 +3,10 @@ import {html} from "../../ssg/html-fn.js"
 import {template} from "../../ssg/template.js"
 
 export const partial = template(import.meta.url, async orb => html`
-	<p>root ${orb.root}</p>
-	<p>base ${orb.base}</p>
-	<p>local ${orb.local}</p>
-	<p>../main.css hashurl ${orb.hashurl("../main.css")}</p>
-	<p>../main.css path ${orb.path("../main.css")}</p>
+	<p>root <code>${orb.root}</code></p>
+	<p>dest <code>${orb.dest}</code></p>
+	<p>mod <code>${orb.mod}</code></p>
+	<p>../main.css hashurl <code>${orb.hashurl("../main.css")}</code></p>
+	<p>../main.css path <code>${orb.path("../main.css")}</code></p>
 `)
 

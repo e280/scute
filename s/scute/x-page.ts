@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
+import {resolve} from "node:path"
 import {pathToFileURL} from "node:url"
 import {writeFile} from "node:fs/promises"
-import {dirname, resolve} from "node:path"
 
 import {TemplateFn} from "../ssg/types.js"
 import {untab} from "../ssg/tools/untab.js"
@@ -16,7 +16,10 @@ const pageSetup = mod.default as TemplateFn
 if (!pageSetup)
 	throw new Error(`html page template's default export is missing "${inpath}"`)
 
-const template = await pageSetup(root, dirname(inpath))
+const template = await pageSetup({
+	root,
+	dest: outpath,
+})
 const result = await template.render()
 const final = untab(result).trim() + "\n"
 

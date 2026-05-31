@@ -17,7 +17,7 @@
 		"scute": "./x/scute/cli.js"
 	},
 	"scripts": {
-		"build": "rm -rf x && mkdir x && ln -s '$(realpath assets)' x/assets && ln -s '$(realpath node_modules)' x/node_modules && tsc",
+		"build": "rm -rf x && mkdir x && tsc",
 		"scute": "node ./x/scute/cli.js -v",
 		"help": "node ./x/scute/cli.js --help",
 		"dev": "node --watch x/tests.test.js & tsc -w & http-server x & wait",

@@ -9,6 +9,11 @@ export type FilePath = {
 	partial: string
 }
 
+export type Pathing = {
+	root: string
+	dest: string
+}
+
 /** open graph protocol social card, of type "website", see https://ogp.me/ */
 export type SocialCard = {
 
@@ -42,8 +47,8 @@ export type HtmlOptions = {
 }
 
 export type RenderFn = (orb: Orb) => Promise<Html>
-export type TemplateFn = (root: string, base: string) => Promise<Html>
+export type TemplateFn = (pathing: Pathing) => Promise<Html>
 
 export type ExeFn = (orb: Orb) => Promise<void>
-export type ExeDefaultFn = (root: string, base: string) => Promise<void>
+export type ExeDefaultFn = (pathing: Pathing) => Promise<void>
 

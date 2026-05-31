@@ -3,7 +3,6 @@ import {createHash} from "node:crypto"
 
 import {Io} from "./io.js"
 import {html} from "./html-fn.js"
-import {TemplateFn} from "./types.js"
 import {Resolver} from "./tools/resolver.js"
 import {parseUrl} from "./tools/parse-url.js"
 
@@ -17,8 +16,8 @@ export class Orb extends Resolver {
 	 *  - looks like "?v=d34da7f7b122"
 	 *  - it actually hashes the content of the real file
 	 */
-	hashurl = async(pathy: string) => {
-		const url = this.url(pathy)
+	hashurl = async(pathy: string, rooted = false) => {
+		const url = this.url(pathy, rooted)
 		const text = await this.io.read(pathy)
 		const hash = createHash("sha256")
 			.update(text)
@@ -33,11 +32,6 @@ export class Orb extends Resolver {
 	inject = async(pathy: string) => {
 		const text = await this.io.read(pathy)
 		return html.raw(text)
-	}
-
-	/** insert a template into this one, passing the pathing info */
-	async place(fn: TemplateFn) {
-		return fn(this.root, this.base)
 	}
 
 	/** yoink the "version" string from your package.json */
