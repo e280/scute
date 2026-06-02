@@ -11,6 +11,7 @@
 ## v0.4
 
 ### v0.4.0
+- 🟥 delete all previously deprecated stuff
 - 🟥 reworked orb/resolver pathing
   - 🟥 orb/resolver now has `root`, `dest`, and `mod` paths
   - 🟥 orb/resolver `url` and `hashurl` methods now accept optional `rooted` boolean

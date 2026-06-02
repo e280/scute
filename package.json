@@ -20,8 +20,8 @@
 		"build": "rm -rf x && mkdir x && tsc",
 		"scute": "node ./x/scute/cli.js -v",
 		"help": "node ./x/scute/cli.js --help",
-		"dev": "node --watch x/tests.test.js & tsc -w & http-server x & wait",
-		"test": "node x/tests.test.js"
+		"dev": "node --watch x/test.js & tsc -w & http-server x & wait",
+		"test": "node x/test.js"
 	},
 	"allowScripts": {
 		"esbuild@0.28.0": true

@@ -1,13 +1,12 @@
 
-import {nap} from "@e280/stz"
-import {Science, test, expect} from "@e280/science"
+import {nap, untab} from "@e280/stz"
+import {expect, Science, test} from "@e280/science"
 
-import {Orb} from "./orb.js"
-import {Html} from "./html.js"
-import {html} from "./html-fn.js"
-import {untab} from "./tools/untab.js"
+import {Orb} from "./ssg/orb.js"
+import {Html} from "./ssg/html.js"
+import {html} from "./ssg/html-fn.js"
 
-export default Science.suite({
+await Science.run({
 	"ergonomics": {
 		"null and undefined injections do nothing": test(async() => {
 			const expectedResult = "hello world"
@@ -101,12 +100,12 @@ export default Science.suite({
 
 	"versioning": {
 		"adds file hash to url": test(async() => {
-			const orb = new Orb("x", "x/tests.test.js", "x/tests.test.js")
+			const orb = new Orb("x", "x/test.js", "x/test.js")
 			const url = await orb.hashurl("index.js")
 			expect(/^(\S+)\?v=\S{8,64}$/.test(url)).ok()
 		}),
 		"adds file hash to url that already has a querystring": test(async() => {
-			const orb = new Orb("x", "x/tests.test.js", "x/tests.test.js")
+			const orb = new Orb("x", "x/test.js", "x/test.js")
 			const url = await orb.hashurl("index.js?lol=rofl")
 			expect(/^(\S+)\?lol=rofl&v=\S{8,64}$/.test(url)).ok()
 		}),
