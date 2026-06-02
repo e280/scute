@@ -23,6 +23,9 @@ export type SocialCard = {
 	/** one or two sentence description */
 	description: string
 
+	/** defaults to "website" but maybe you'd like to set "article" */
+	type?: string
+
 	/** brand name this content belongs to */
 	siteName?: string
 

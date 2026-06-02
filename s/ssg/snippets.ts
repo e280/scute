@@ -16,7 +16,7 @@ export const dataSvgEmoji = (emoji: string) => html`data:image/svg+xml,${svgEmoj
 
 /** open graph protocol social card, of type "website", see https://ogp.me/ */
 export const socialCard = (card: SocialCard) => html`
-	<meta property="og:type" content="website">
+	<meta property="og:type" content="${card.type ?? 'website'}">
 	<meta property="og:title" content="${card.title}">
 	<meta property="og:description" content="${card.description}">
 	${card.siteName ? html`<meta property="og:site_name" content="${card.siteName}">` : null}
