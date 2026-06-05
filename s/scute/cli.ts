@@ -68,11 +68,11 @@ await cli(process.argv, {
 				if (params.copy)
 					await copyStep(params)
 
-				if (params.html)
-					await htmlStep(params)
-
 				if (params.exe)
 					await exeStep(params)
+
+				if (params.html)
+					await htmlStep(params)
 
 				return Math.round(Date.now() - start)
 			}
