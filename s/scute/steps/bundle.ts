@@ -37,6 +37,10 @@ export const bundleStep = step(async params => {
 			format: "esm",
 			target: "es2023",
 			platform: "browser",
+			loader: {
+				".css": "text",
+				".json": "json",
+			},
 		})
 		await logger.log(`${logger.colors.yellow(`bund`)} ${bundle.out}`)
 	}))
