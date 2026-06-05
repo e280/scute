@@ -38,10 +38,7 @@ export const bundleStep = step(async params => {
 			target: "es2023",
 			platform: "browser",
 			legalComments: "linked",
-			loader: {
-				".css": "text",
-				".json": "json",
-			},
+			loader: {".css": "text"},
 		})
 		await logger.log(`${logger.colors.yellow(`bund`)} ${bundle.out}`)
 	}))

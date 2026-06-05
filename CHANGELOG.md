@@ -13,7 +13,7 @@
 ### v0.4.0
 - 🟥 delete all previously deprecated stuff
 - 🟥 swap order, so that `exe` scripts happen *before* `.html.ts` are generated
-- 🍏 esbuild configured to load `.json` as json, and `.css` as text.
+- 🍏 esbuild configured to load `.css` as text
 - 🍏 esbuild legalComments set to `linked`, should emit legal comments txt with each bundle
 - 🟥 reworked orb/resolver pathing
   - 🟥 orb/resolver now has `root`, `dest`, and `mod` paths
