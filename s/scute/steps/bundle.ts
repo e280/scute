@@ -37,6 +37,7 @@ export const bundleStep = step(async params => {
 			format: "esm",
 			target: "es2023",
 			platform: "browser",
+			legalComments: "linked",
 			loader: {
 				".css": "text",
 				".json": "json",
