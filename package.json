@@ -24,15 +24,15 @@
 		"test": "node x/test.js"
 	},
 	"allowScripts": {
-		"esbuild@0.28.0": true
+		"esbuild@0.28.1": true
 	},
 	"dependencies": {
 		"@benev/argv": "^0.3.14",
 		"@e280/sten": "^0.1.1",
-		"@e280/stz": "^0.3.0-next.1",
+		"@e280/stz": "^0.3.0",
 		"braces": "^3.0.3",
 		"chokidar": "^5.0.0",
-		"esbuild": "^0.28.0",
+		"esbuild": "^0.28.1",
 		"globby": "^16.2.0",
 		"minimatch": "^10.2.5",
 		"shell-quote": "^1.8.4",
@@ -41,7 +41,7 @@
 	"devDependencies": {
 		"@e280/science": "^0.1.11",
 		"@types/braces": "^3.0.5",
-		"@types/node": "^25.9.1",
+		"@types/node": "^25.9.3",
 		"@types/shell-quote": "^1.7.5",
 		"http-server": "^14.1.1",
 		"typescript": "^6.0.3"
