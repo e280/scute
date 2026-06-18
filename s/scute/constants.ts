@@ -5,7 +5,6 @@ export const scuteConstants = {
 		"**/*.d.ts",
 
 		// no-look dirs
-		"**/node_modules",
 		"**/.git",
 	],
 }

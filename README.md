@@ -225,6 +225,9 @@ npm install --save-dev @e280/scute
 
       --verbose, -v, flag boolean
         should we log a bunch of crap?
+
+      --also-watch, default string-list node_modules
+        what other directories should we watch for changes within?
     ```
 - by default we use `s/` and `x/`, instead of `src/` and `dist/`. it's our weird e280 tradition.
     if you wanna be a normie, do this:

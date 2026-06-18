@@ -10,6 +10,12 @@
 
 ## v0.4
 
+### v0.4.1
+- 🍏 add `--also-watch` option, defaults to `"node_modules"`
+  - this means, scute is now watching and rebuilding when it sees any changes under node_modules
+  - this is really nice for workflows where you're leveraging `npm link` a lot to work locally on inter-related packages
+  - yet to be seen if this could be a performance issue
+
 ### v0.4.0
 - 🟥 delete all previously deprecated stuff
 - 🟥 swap order, so that `exe` scripts happen *before* `.html.ts` are generated

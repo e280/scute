@@ -39,6 +39,7 @@ await cli(process.argv, {
 			debounce: param.default(number, "100", {help: `milliseconds to wait before watch routine build`}),
 			exclude: param.optional(list(string, ";"), {help: `what files should we ignore? semicolon separated globs.`}),
 			verbose: param.flag("v", {help: `should we log a bunch of crap?`}),
+			"also-watch": param.default(list(string, ";"), "node_modules", {help: `what other directories should we watch for changes within?`}),
 		},
 		async execute({params: p}) {
 			const logger = new Logger()
@@ -86,7 +87,7 @@ await cli(process.argv, {
 
 				const stop = watch({
 					debounce: params.debounce,
-					dirs: [...params.in, params.out],
+					dirs: [...params.in, params.out, ...params["also-watch"]],
 					exclude: params.exclude,
 					patterns: ["**/*"],
 					fn: async() => {

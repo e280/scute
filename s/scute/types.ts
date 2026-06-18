@@ -14,6 +14,7 @@ export type Params = {
 	splitting: boolean
 	verbose: boolean
 	logger: Logger
+	"also-watch": string[]
 }
 
 export type Step = (params: Params) => Promise<void>
