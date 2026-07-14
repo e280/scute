@@ -8,6 +8,16 @@
 
 <br/><br/>
 
+## v0.5
+
+### v0.5.0
+- 🟥 make `--also-watch` comma-separated to match --in (previously it was semicolon separated)
+- 🍏 update deps
+
+
+
+<br/><br/>
+
 ## v0.4
 
 ### v0.4.1
