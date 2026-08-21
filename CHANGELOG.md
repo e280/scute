@@ -10,6 +10,9 @@
 
 ## v0.5
 
+### v0.5.1
+- 🍏 update deps
+
 ### v0.5.0
 - 🟥 make `--also-watch` comma-separated to match --in (previously it was semicolon separated)
 - 🍏 update deps
