@@ -10,6 +10,10 @@
 
 ## v0.5
 
+### v0.5.2
+- 🍏 fix html escaping logic in npm link scenarios, by using a `Symbol.for` to identify Html instances (instead of `instanceof`)
+- 🍏 update deps
+
 ### v0.5.1
 - 🍏 update deps
 

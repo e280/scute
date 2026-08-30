@@ -1,9 +1,12 @@
 
 import {Html} from "./html.js"
+import {isHtml} from "./tools/is-html.js"
 
 export function html(strings: TemplateStringsArray, ...values: any[]): Html {
 	return new Html({strings, values})
 }
+
+html.is = isHtml
 
 html.raw = (value: string) => new Html({strings: [value], values: []})
 

@@ -1,9 +1,12 @@
 
 import {html} from "./html-fn.js"
 import {HtmlOptions} from "./types.js"
+import {isHtml} from "./tools/is-html.js"
+import {htmlSymbol} from "./tools/html-symbol.js"
 
 export class Html {
 	static html = html
+	;[htmlSymbol] = true
 
 	#strings: string[]
 	#values: any[]
@@ -14,13 +17,13 @@ export class Html {
 	}
 
 	#process_value(value: any): string {
-		return value instanceof Html
+		return isHtml(value)
 			? value.toString()
 			: html.escape(value.toString())
 	}
 
 	async #process_async_value(value: any): Promise<string> {
-		return value instanceof Html
+		return isHtml(value)
 			? await value.render()
 			: html.escape(value.toString())
 	}
