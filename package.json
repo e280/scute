@@ -29,9 +29,9 @@
 	"dependencies": {
 		"@benev/argv": "^0.3.14",
 		"@e280/sten": "^0.1.1",
-		"@e280/stz": "^0.4.9",
+		"@e280/stz": "^0.4.12",
 		"braces": "^3.0.3",
-		"chokidar": "^5.0.0",
+		"chokidar": "^6.0.0",
 		"esbuild": "^0.28.2",
 		"globby": "^16.2.4",
 		"minimatch": "^10.2.6",
