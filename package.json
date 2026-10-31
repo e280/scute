@@ -1,6 +1,6 @@
 {
 	"name": "@e280/scute",
-	"version": "0.5.4",
+	"version": "0.5.5",
 	"description": "buildy bundly static site generator",
 	"license": "MIT",
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
