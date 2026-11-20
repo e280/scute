@@ -10,6 +10,19 @@
 
 ## v0.5
 
+### v0.5.6
+- 🍏 add cli options `--sourcemap` and `--minify`.
+- 🍏 update deps.
+
+### v0.5.5
+- 🍏 update deps.
+
+### v0.5.4
+- 🍏 update deps.
+
+### v0.5.3
+- 🍏 update deps.
+
 ### v0.5.2
 - 🍏 fix html escaping logic in npm link scenarios, by using a `Symbol.for` to identify Html instances (instead of `instanceof`)
 - 🍏 update deps

@@ -36,6 +36,8 @@ await cli(process.argv, {
 			html: param.default(boolean, "yes", {help: `should we build .html.js templates?`}),
 			exe: param.default(boolean, "yes", {help: `should we execute .exe.js scripts?`}),
 			splitting: param.default(boolean, "yes", {help: `should bundles be split into chunks? (esbuild option)`}),
+			sourcemap: param.default(boolean, "yes", {help: `should we make source maps? (esbuild option)`}),
+			minify: param.default(boolean, "yes", {help: `should we minify the code? (esbuild option)`}),
 			debounce: param.default(number, "100", {help: `milliseconds to wait before watch routine build`}),
 			exclude: param.optional(list(string, ";"), {help: `what files should we ignore? semicolon separated globs.`}),
 			verbose: param.flag("v", {help: `should we log a bunch of crap?`}),

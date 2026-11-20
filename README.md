@@ -204,8 +204,7 @@ npm install --save-dev @e280/scute
       --bundle, default boolean yes
         should we bundle .bundle.js files?
 
-      --copy, default string-list **/*.{css,woff2,json,txt,xml,csv,wasm,webmanifest,
-      png,svg,webp,avif,jpg,jpeg,ico,webm,ogg,mp4,m4a}
+      --copy, default string-list **/*.{css,woff2,json,txt,xml,csv,wasm,webmanifest,png,svg,webp,avif,jpg,jpeg,ico,webm,ogg,mp4,m4a}
         what files should we copy verbatim? semicolon separated globs.
 
       --html, default boolean yes
@@ -217,6 +216,12 @@ npm install --save-dev @e280/scute
       --splitting, default boolean yes
         should bundles be split into chunks? (esbuild option)
 
+      --sourcemap, default boolean yes
+        should we make source maps? (esbuild option)
+
+      --minify, default boolean yes
+        should we minify the code? (esbuild option)
+
       --debounce, default number 100
         milliseconds to wait before watch routine build
 
@@ -227,7 +232,7 @@ npm install --save-dev @e280/scute
         should we log a bunch of crap?
 
       --also-watch, default string-list node_modules
-        what other directories should we watch for changes within?
+        what other directories should we watch for changes within? comma separated.
     ```
 - by default we use `s/` and `x/`, instead of `src/` and `dist/`. it's our weird e280 tradition.
     if you wanna be a normie, do this:

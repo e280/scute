@@ -12,6 +12,8 @@ export type Params = {
 	debounce: number
 	exclude: string[]
 	splitting: boolean
+	sourcemap: boolean
+	minify: boolean
 	verbose: boolean
 	logger: Logger
 	"also-watch": string[]

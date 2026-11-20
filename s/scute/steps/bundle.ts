@@ -6,7 +6,7 @@ import {step} from "../types.js"
 import {findPaths} from "../utils/find-paths.js"
 
 export const bundleStep = step(async params => {
-	const {logger, splitting} = params
+	const {logger} = params
 
 	const paths = await findPaths(
 		[...params.in, params.out],
@@ -30,10 +30,10 @@ export const bundleStep = step(async params => {
 			outbase: dirname(bundle.in),
 			outdir: dirname(bundle.out),
 			entryNames: "[name].min",
-			splitting,
 			bundle: true,
-			minify: true,
-			sourcemap: true,
+			splitting: params.splitting,
+			sourcemap: params.sourcemap,
+			minify: params.minify,
 			format: "esm",
 			target: "es2023",
 			platform: "browser",
