@@ -10,6 +10,12 @@
 
 ## v0.5
 
+### v0.5.7
+- 🔶 rework esbuild bundling.
+  - all bundles are now generated in a single esbuild shot.
+  - this allows multiple bundles to share chunks when code splitting is enabled (on by default).
+  - i don't think it's a breaking change, but, it should optimize the chunking.
+
 ### v0.5.6
 - 🍏 add cli options `--sourcemap` and `--minify`.
 - 🍏 update deps.

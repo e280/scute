@@ -17,7 +17,7 @@
 		"scute": "./x/scute/cli.js"
 	},
 	"scripts": {
-		"build": "rm -rf x && mkdir x && tsc",
+		"build": "rm -rf x && mkdir x && tsc && chmod +x x/scute/cli.js",
 		"scute": "node ./x/scute/cli.js -v",
 		"help": "node ./x/scute/cli.js --help",
 		"dev": "node --watch x/test.js & tsc -w & http-server x & wait",
