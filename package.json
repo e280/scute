@@ -41,7 +41,7 @@
 	"devDependencies": {
 		"@e280/science": "^0.1.14",
 		"@types/braces": "^3.0.5",
-		"@types/node": "^26.6.6",
+		"@types/node": "^26.6.11",
 		"@types/shell-quote": "^1.7.5",
 		"http-server": "^14.1.1",
 		"typescript": "^7.0.2"
